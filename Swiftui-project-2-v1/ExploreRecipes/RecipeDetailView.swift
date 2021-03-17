@@ -12,34 +12,26 @@ struct RecipeDetailView: View {
     
     var body: some View {
         VStack {
-            Text(recipe.name)
-                .font(.title)
-                .padding()
-                .foregroundColor(.green)
             HStack {
                 Text(recipe.description)
                     .font(.subheadline)
                     .padding()
                 Spacer()
             }
-            Text("Ingredients")
-                .font(.title2)
-                .padding()
-            IngredientsListView(ingredients: recipe.ingredients)
-            Text("Directions")
-                .font(.title2)
-                .multilineTextAlignment(.center)
-                .padding()
-            ForEach(recipe.directions.indices) { index in
-                HStack {
-                    let str = "\(index + 1). \(recipe.directions[index])"
-                    Text(str)
-                    Spacer()
+            List {
+                Section(header: Text("Ingredients")) {
+                    ForEach(recipe.ingredients) { ingredient in
+                        Text(ingredient.description)
+                    }
                 }
-                .padding()
+                Section(header: Text("Directions")) {
+                    ForEach(recipe.directions.indices) { i in
+                        Text("\(i+1). \(recipe.directions[i])")
+                    }
+                }
             }
-            Spacer()
         }
+        .navigationTitle(recipe.name)
     }
 }
 
@@ -48,3 +40,4 @@ struct RecipeDetailView_Previews: PreviewProvider {
         RecipeDetailView(recipe: Recipe.allRecipes[0])
     }
 }
+

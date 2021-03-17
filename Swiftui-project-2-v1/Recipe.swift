@@ -17,14 +17,14 @@ struct Recipe: Identifiable {
     static let allRecipes: [Recipe] = [
         Recipe(name: "Apple Pie",
                ingredients: [
-                Ingredient(name: "Apples", quantity: 3, unit: .none),
+                Ingredient(name: "Apple", quantity: 3, unit: .none),
                 Ingredient(name: "Sugar", quantity: 1, unit: .cups)
                ],
                description: "It's great!",
                directions: ["Combine", "Bake"]),
         Recipe(name: "Banana Bread",
                ingredients: [
-                Ingredient(name: "Bananas", quantity: 5, unit: .none),
+                Ingredient(name: "Banana", quantity: 5, unit: .none),
                 Ingredient(name: "Sugar", quantity: 0.5, unit: .cups),
                 Ingredient(name: "Butter", quantity: 8, unit: .tbs),
                 Ingredient(name: "Flour", quantity: 1, unit: .cups)
@@ -33,7 +33,7 @@ struct Recipe: Identifiable {
                directions: ["Combine", "Bake"]),
         Recipe(name: "Carrot Cake",
                ingredients: [
-                Ingredient(name: "Carrots", quantity: 3, unit: .none),
+                Ingredient(name: "Carrot", quantity: 3, unit: .none),
                 Ingredient(name: "Sugar", quantity: 0.75, unit: .cups),
                 Ingredient(name: "Cream Cheese", quantity: 8, unit: .oz),
                 Ingredient(name: "Flour", quantity: 1, unit: .cups)
@@ -51,21 +51,30 @@ struct Ingredient: Identifiable {
     
     
     var description: String {
+        let formattedQuanity = String(format: "%g", quantity)
         switch unit {
-        case .none: return "\(quantity) \(name)"
-        default: return "\(quantity) \(unit.rawValue) \(name)"
-        }        
+        case .none:
+            let formattedName = quantity == 1 ? name : "\(name)s"
+            return "\(formattedQuanity) \(formattedName)"
+        default:
+            if quantity == 1 {
+                return "1 \(unit.rawValue) \(name)"
+            } else {
+                return "\(formattedQuanity) \(unit.pluralName) \(name) "
+            }
+        }
     }
     
     enum Unit: String, CaseIterable, Identifiable {
         var id: Unit { self }
         
-        case oz = "Ounces"
-        case g = "Grams"
-        case cups = "Cups"
-        case tbs = "Tablespoons"
-        case tsp = "Teaspoons"
+        case oz = "Ounce"
+        case g = "Gram"
+        case cups = "Cup"
+        case tbs = "Tablespoon"
+        case tsp = "Teaspoon"
         case none = "No unit"
+        var pluralName: String { self.rawValue + "s" }
     }
 }
 
