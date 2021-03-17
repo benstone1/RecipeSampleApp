@@ -27,7 +27,7 @@ struct CreateRecipeView: View {
                 RecipeMainInfoView()
             case .ingredients:
                 AddIngredientsView(ingredients: $ingredients)
-            case .directions: Text("D")
+            case .directions: Text("Directions")
             }
             Spacer()
         }
@@ -37,6 +37,14 @@ struct CreateRecipeView: View {
         case main
         case ingredients
         case directions
+    }
+}
+
+extension CreateRecipeView {
+    struct ViewModel {
+        func save(_ recipe: Recipe) {
+            
+        }
     }
 }
 

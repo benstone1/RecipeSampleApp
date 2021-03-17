@@ -11,7 +11,7 @@ struct AddNewIngredientView: View {
     @Environment(\.presentationMode) var mode
     @State var selectedUnit: Ingredient.Unit = .cups
     @State var ingredientName = ""
-    @State var quantity: Double = 1.5
+    @State var quantity: Double = 1
     let formatter: NumberFormatter
     let onCreate: (Ingredient) -> Void
     
@@ -48,10 +48,9 @@ struct AddNewIngredientView: View {
                     }
                     Spacer()
                 }
-            }        .navigationBarTitle("Add Ingredient")
-
+            }
+            .navigationBarTitle("Add Ingredient")
         }
-    
 }
 
 struct AddNewIngredientView_Previews: PreviewProvider {
