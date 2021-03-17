@@ -26,7 +26,7 @@ struct RecipeDetailView: View {
                 }
                 Section(header: Text("Directions")) {
                     ForEach(recipe.directions.indices) { i in
-                        Text("\(i+1). \(recipe.directions[i])")
+                        Text("\(i+1). ").bold() + Text(recipe.directions[i])
                     }
                 }
             }

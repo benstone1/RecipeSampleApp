@@ -10,24 +10,27 @@ import SwiftUI
 struct AddIngredientsView: View {
     var viewModel = ViewModel()
     @Binding var ingredients: [Ingredient]
-    @State var selectedUnit: Ingredient.Unit = .cups
-    @State var ingredientName = ""
-    @State var count = 0
     
     var body: some View {
-        VStack {
-            IngredientsListView(ingredients: ingredients)
-            Stepper("Quantity: \(count)", value: $count)
-                .padding()
-            Picker("Type", selection: $selectedUnit) {
-                ForEach(Ingredient.Unit.allCases) { unit in
-                    Text(unit.rawValue)
+        NavigationView {
+            VStack {
+                let addIngredientView = AddNewIngredientView { ingredient in
+                    ingredients.append(ingredient)
                 }
-            }
-            TextField("Apple", text: $ingredientName)
-                .padding()
-            Button("Add Ingredient") {
-                // Add Ingredient
+                if ingredients.isEmpty {
+                    NavigationLink("Add your first ingredient",
+                                   destination: addIngredientView)
+                    Spacer()
+                } else {
+                    List {
+                        ForEach(ingredients) { ingredient in
+                            Text(ingredient.description)
+                        }
+                        NavigationLink("Add another ingredient",
+                                       destination: addIngredientView)
+                            .foregroundColor(.blue)
+                    }
+                }
             }
         }
     }
@@ -42,8 +45,11 @@ extension AddIngredientsView {
 
 struct AddIngredientsView_Previews: PreviewProvider {
     @State static var ingredients = [Ingredient](Recipe.allRecipes[0].ingredients)
+    @State static var emptyIngredients = [Ingredient]()
+
 
     static var previews: some View {
         AddIngredientsView(ingredients: $ingredients)
+        AddIngredientsView(ingredients: $emptyIngredients)
     }
 }

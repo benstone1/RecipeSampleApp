@@ -13,6 +13,7 @@
 		F229950025FFE5510037B97C /* RecipeMainInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22994FF25FFE5510037B97C /* RecipeMainInfoView.swift */; };
 		F2299520260114850037B97C /* AddIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F229951F260114850037B97C /* AddIngredientsView.swift */; };
 		F22995232601154C0037B97C /* IngredientsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22995222601154C0037B97C /* IngredientsListView.swift */; };
+		F28B9E992602959F0061E501 /* AddNewIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28B9E982602959F0061E501 /* AddNewIngredientView.swift */; };
 		F2C005DF25F6C4E10025162A /* Swiftui_project_2_v1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C005DE25F6C4E10025162A /* Swiftui_project_2_v1App.swift */; };
 		F2C005E125F6C4E10025162A /* RecipesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C005E025F6C4E10025162A /* RecipesList.swift */; };
 		F2C005E325F6C4E20025162A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C005E225F6C4E20025162A /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 		F22994FF25FFE5510037B97C /* RecipeMainInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeMainInfoView.swift; sourceTree = "<group>"; };
 		F229951F260114850037B97C /* AddIngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredientsView.swift; sourceTree = "<group>"; };
 		F22995222601154C0037B97C /* IngredientsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsListView.swift; sourceTree = "<group>"; };
+		F28B9E982602959F0061E501 /* AddNewIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewIngredientView.swift; sourceTree = "<group>"; };
 		F2C005DB25F6C4E10025162A /* Swiftui-project-2-v1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swiftui-project-2-v1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C005DE25F6C4E10025162A /* Swiftui_project_2_v1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swiftui_project_2_v1App.swift; sourceTree = "<group>"; };
 		F2C005E025F6C4E10025162A /* RecipesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesList.swift; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				F229951F260114850037B97C /* AddIngredientsView.swift */,
+				F28B9E982602959F0061E501 /* AddNewIngredientView.swift */,
 				F22994FF25FFE5510037B97C /* RecipeMainInfoView.swift */,
 				F22994FC25FFC2820037B97C /* CreateRecipeView.swift */,
 			);
@@ -177,6 +180,7 @@
 			files = (
 				F22995232601154C0037B97C /* IngredientsListView.swift in Sources */,
 				F22994FD25FFC2820037B97C /* CreateRecipeView.swift in Sources */,
+				F28B9E992602959F0061E501 /* AddNewIngredientView.swift in Sources */,
 				F229950025FFE5510037B97C /* RecipeMainInfoView.swift in Sources */,
 				F2C005EF25F6C4F90025162A /* Recipe.swift in Sources */,
 				F2299520260114850037B97C /* AddIngredientsView.swift in Sources */,

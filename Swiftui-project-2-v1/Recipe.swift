@@ -39,7 +39,7 @@ struct Recipe: Identifiable {
                 Ingredient(name: "Flour", quantity: 1, unit: .cups)
                ],
                description: "Carroty!",
-               directions: ["Combine", "Bake", "Add Frosting"]),
+               directions: ["Combine all of the ingredients together.  Just as our ancestors did when originally gathering food from the harvest, now it your turn.", "Bake", "Add Frosting"]),
     ]
 }
 

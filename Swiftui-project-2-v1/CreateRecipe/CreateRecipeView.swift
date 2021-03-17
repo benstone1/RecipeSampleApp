@@ -42,6 +42,7 @@ struct CreateRecipeView: View {
 
 struct CreateRecipeView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateRecipeView()
+        CreateRecipeView(ingredients: Recipe.allRecipes[0].ingredients)
+        CreateRecipeView(ingredients: [])
     }
 }
