@@ -43,7 +43,7 @@ struct Recipe: Identifiable {
     ]
 }
 
-struct Direction: Identifiable {
+struct Direction: Identifiable, CustomStringConvertible {
     var id = UUID()
     init(_ description: String) {
         self.description = description
@@ -52,7 +52,7 @@ struct Direction: Identifiable {
     let isOptional: Bool = false
 }
 
-struct Ingredient: Identifiable {
+struct Ingredient: Identifiable, CustomStringConvertible {
     var id = UUID()
     let name: String
     let quantity: Double

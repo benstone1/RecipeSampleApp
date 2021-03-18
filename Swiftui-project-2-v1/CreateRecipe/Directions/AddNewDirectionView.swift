@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct AddNewDirectionView: View {
+struct AddNewDirectionView: AddNewElementView {
+    typealias Element = Direction
+    
     @Environment(\.presentationMode) var mode
     let onCreate: (Direction) -> Void
     @State var step = ""

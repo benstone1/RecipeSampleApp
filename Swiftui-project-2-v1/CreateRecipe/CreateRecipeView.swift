@@ -27,9 +27,9 @@ struct CreateRecipeView: View {
             case .main:
                 RecipeMainInfoView(name: $name, description: $description)
             case .ingredients:
-                AddIngredientsView(ingredients: $ingredients)
+                AddElementsView<Ingredient, AddNewIngredientView>(elements: $ingredients)
             case .directions:
-                AddDirectionsView(directions: $directions)
+                AddElementsView<Direction, AddNewDirectionView>(elements: $directions)                
             }
             Spacer()
             Button("Save Recipe") {

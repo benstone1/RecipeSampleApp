@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddIngredientsView: View {
+struct AddIngredientsView: View {    
     var viewModel = ViewModel()
     @Binding var ingredients: [Ingredient]
     

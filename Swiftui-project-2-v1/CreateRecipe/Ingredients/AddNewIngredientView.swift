@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct AddNewIngredientView: View {
+struct AddNewIngredientView: AddNewElementView {
+    typealias Element = Ingredient
+    
     @Environment(\.presentationMode) var mode
     @State var selectedUnit: Ingredient.Unit = .cups
     @State var ingredientName = ""

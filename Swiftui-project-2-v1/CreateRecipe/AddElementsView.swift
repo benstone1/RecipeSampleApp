@@ -9,15 +9,13 @@ import SwiftUI
 
 protocol AddNewElementView: View {
     associatedtype Element
-    init(onCreate: (Element) -> Void)
-    func onCreate(element: Element)
+    init(onCreate: @escaping (Element) -> Void)
+    var onCreate: (Element) -> Void { get }
 }
 
 struct AddElementsView<Element: Identifiable & CustomStringConvertible, DestinationView: AddNewElementView>: View where Element == DestinationView.Element {
     @Binding var elements: [Element]
-            
-    let destination: DestinationView
-
+                
     var elementName: String { String(describing: Element.self).lowercased() }
     
     var body: some View {
@@ -37,7 +35,8 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible, Destinat
                     .onDelete { elements.remove(atOffsets: $0) }
                     .onMove { indices, newOffet in elements.move(fromOffsets: indices, toOffset: newOffet) }
                     NavigationLink("Add another \(elementName)",
-                                   destination: destination)
+                                   destination: addElementView)
+                        .buttonStyle(PlainButtonStyle())
                         .foregroundColor(.blue)
                 }
                 .toolbar {
