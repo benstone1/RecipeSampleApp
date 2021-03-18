@@ -12,8 +12,6 @@ struct MainTabView: View {
         TabView {
             RecipesList()
                 .tabItem { Label("Recipes", systemImage: "list.dash") }
-            CreateRecipeView()
-                .tabItem { Label("New Recipe", systemImage: "plus") }
             Text("Settings")
                 .tabItem { Label("Settings", systemImage: "gear") }
         }

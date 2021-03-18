@@ -9,13 +9,14 @@ import SwiftUI
 
 struct CreateRecipeView: View {
     @State var selection = Selection.main
+    @State var name = ""
+    @State var description = ""
     @State var ingredients = [Ingredient]()
+    @State var directions = [Direction]()
+    let viewModel = ViewModel()
     
     var body: some View {
         VStack {
-            Text("Create a New Recipe")
-                .font(.title)
-                .padding()
             Picker(selection: $selection, label: Text("Picker"), content: {
                 Text("Main Info").tag(Selection.main)
                 Text("Ingredients").tag(Selection.ingredients)
@@ -24,13 +25,22 @@ struct CreateRecipeView: View {
             .pickerStyle(SegmentedPickerStyle.init())
             switch selection {
             case .main:
-                RecipeMainInfoView()
+                RecipeMainInfoView(name: $name, description: $description)
             case .ingredients:
                 AddIngredientsView(ingredients: $ingredients)
-            case .directions: Text("Directions")
+            case .directions:
+                AddDirectionsView(directions: $directions)
             }
             Spacer()
+            Button("Save Recipe") {
+                let recipe = Recipe(name: name,
+                                    ingredients: ingredients,
+                                    description: description,
+                                    directions: directions)
+                viewModel.save(recipe)
+            }
         }
+        .navigationTitle("Create a New Recipe")
     }
     
     enum Selection {

@@ -20,6 +20,9 @@ struct RecipesList: View {
                 }
             }
             .navigationBarTitle("Recipes")
+            .toolbar(content: {
+                NavigationLink("New Recipe", destination: CreateRecipeView())
+            })
         }
     }
 }

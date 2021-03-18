@@ -12,7 +12,7 @@ struct Recipe: Identifiable {
     let name: String
     let ingredients: [Ingredient]
     let description: String
-    let directions: [String]
+    let directions: [Direction]
     
     static let allRecipes: [Recipe] = [
         Recipe(name: "Apple Pie",
@@ -21,7 +21,7 @@ struct Recipe: Identifiable {
                 Ingredient(name: "Sugar", quantity: 1, unit: .cups)
                ],
                description: "It's great!",
-               directions: ["Combine", "Bake"]),
+               directions: ["Combine", "Bake"].map(Direction.init)),
         Recipe(name: "Banana Bread",
                ingredients: [
                 Ingredient(name: "Banana", quantity: 5, unit: .none),
@@ -30,7 +30,7 @@ struct Recipe: Identifiable {
                 Ingredient(name: "Flour", quantity: 1, unit: .cups)
                ],
                description: "Delicious!",
-               directions: ["Combine", "Bake"]),
+               directions: ["Combine", "Bake"].map(Direction.init)),
         Recipe(name: "Carrot Cake",
                ingredients: [
                 Ingredient(name: "Carrot", quantity: 3, unit: .none),
@@ -39,8 +39,17 @@ struct Recipe: Identifiable {
                 Ingredient(name: "Flour", quantity: 1, unit: .cups)
                ],
                description: "Carroty!",
-               directions: ["Combine all of the ingredients together.  Just as our ancestors did when originally gathering food from the harvest, now it your turn.", "Bake", "Add Frosting"]),
+               directions: ["Combine all of the ingredients together.  Just as our ancestors did when originally gathering food from the harvest, now it your turn.", "Bake", "Add Frosting"].map(Direction.init)),
     ]
+}
+
+struct Direction: Identifiable {
+    var id = UUID()
+    init(_ description: String) {
+        self.description = description
+    }
+    let description: String
+    let isOptional: Bool = false
 }
 
 struct Ingredient: Identifiable {

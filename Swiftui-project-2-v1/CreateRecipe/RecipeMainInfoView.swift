@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct RecipeMainInfoView: View {
-    @State var name = ""
-    @State var description = "This is a great recipe!"
+    @Binding var name: String
+    @Binding var description: String
 
     var body: some View {
         VStack {
@@ -36,7 +36,10 @@ struct RecipeMainInfoView: View {
 }
 
 struct RecipeMainInfoView_Previews: PreviewProvider {
+    @State static var name: String = ""
+    @State static var description: String = ""
+    
     static var previews: some View {
-        RecipeMainInfoView()
+        RecipeMainInfoView(name: $name, description: $description)
     }
 }

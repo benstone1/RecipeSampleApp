@@ -13,7 +13,10 @@
 		F229950025FFE5510037B97C /* RecipeMainInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22994FF25FFE5510037B97C /* RecipeMainInfoView.swift */; };
 		F2299520260114850037B97C /* AddIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F229951F260114850037B97C /* AddIngredientsView.swift */; };
 		F22995232601154C0037B97C /* IngredientsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22995222601154C0037B97C /* IngredientsListView.swift */; };
+		F248EA732603EFA40078D08F /* AddElementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F248EA722603EFA40078D08F /* AddElementsView.swift */; };
 		F28B9E992602959F0061E501 /* AddNewIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28B9E982602959F0061E501 /* AddNewIngredientView.swift */; };
+		F28B9E9C2603A7EE0061E501 /* AddDirectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28B9E9B2603A7EE0061E501 /* AddDirectionsView.swift */; };
+		F28B9E9F2603A9760061E501 /* AddNewDirectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28B9E9E2603A9760061E501 /* AddNewDirectionView.swift */; };
 		F2C005DF25F6C4E10025162A /* Swiftui_project_2_v1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C005DE25F6C4E10025162A /* Swiftui_project_2_v1App.swift */; };
 		F2C005E125F6C4E10025162A /* RecipesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C005E025F6C4E10025162A /* RecipesList.swift */; };
 		F2C005E325F6C4E20025162A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C005E225F6C4E20025162A /* Assets.xcassets */; };
@@ -28,7 +31,10 @@
 		F22994FF25FFE5510037B97C /* RecipeMainInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeMainInfoView.swift; sourceTree = "<group>"; };
 		F229951F260114850037B97C /* AddIngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredientsView.swift; sourceTree = "<group>"; };
 		F22995222601154C0037B97C /* IngredientsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsListView.swift; sourceTree = "<group>"; };
+		F248EA722603EFA40078D08F /* AddElementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddElementsView.swift; sourceTree = "<group>"; };
 		F28B9E982602959F0061E501 /* AddNewIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewIngredientView.swift; sourceTree = "<group>"; };
+		F28B9E9B2603A7EE0061E501 /* AddDirectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDirectionsView.swift; sourceTree = "<group>"; };
+		F28B9E9E2603A9760061E501 /* AddNewDirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewDirectionView.swift; sourceTree = "<group>"; };
 		F2C005DB25F6C4E10025162A /* Swiftui-project-2-v1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swiftui-project-2-v1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C005DE25F6C4E10025162A /* Swiftui_project_2_v1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swiftui_project_2_v1App.swift; sourceTree = "<group>"; };
 		F2C005E025F6C4E10025162A /* RecipesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesList.swift; sourceTree = "<group>"; };
@@ -49,13 +55,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F2B15F112601505D00F84A84 /* CreateRecipe */ = {
+		F28B9EA12603A97D0061E501 /* Ingredients */ = {
 			isa = PBXGroup;
 			children = (
 				F229951F260114850037B97C /* AddIngredientsView.swift */,
 				F28B9E982602959F0061E501 /* AddNewIngredientView.swift */,
-				F22994FF25FFE5510037B97C /* RecipeMainInfoView.swift */,
+			);
+			path = Ingredients;
+			sourceTree = "<group>";
+		};
+		F28B9EA32603A9910061E501 /* Directions */ = {
+			isa = PBXGroup;
+			children = (
+				F28B9E9B2603A7EE0061E501 /* AddDirectionsView.swift */,
+				F28B9E9E2603A9760061E501 /* AddNewDirectionView.swift */,
+			);
+			path = Directions;
+			sourceTree = "<group>";
+		};
+		F2B15F112601505D00F84A84 /* CreateRecipe */ = {
+			isa = PBXGroup;
+			children = (
 				F22994FC25FFC2820037B97C /* CreateRecipeView.swift */,
+				F22994FF25FFE5510037B97C /* RecipeMainInfoView.swift */,
+				F248EA722603EFA40078D08F /* AddElementsView.swift */,
+				F28B9EA12603A97D0061E501 /* Ingredients */,
+				F28B9EA32603A9910061E501 /* Directions */,
 			);
 			path = CreateRecipe;
 			sourceTree = "<group>";
@@ -178,10 +203,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F248EA732603EFA40078D08F /* AddElementsView.swift in Sources */,
 				F22995232601154C0037B97C /* IngredientsListView.swift in Sources */,
 				F22994FD25FFC2820037B97C /* CreateRecipeView.swift in Sources */,
 				F28B9E992602959F0061E501 /* AddNewIngredientView.swift in Sources */,
+				F28B9E9F2603A9760061E501 /* AddNewDirectionView.swift in Sources */,
 				F229950025FFE5510037B97C /* RecipeMainInfoView.swift in Sources */,
+				F28B9E9C2603A7EE0061E501 /* AddDirectionsView.swift in Sources */,
 				F2C005EF25F6C4F90025162A /* Recipe.swift in Sources */,
 				F2299520260114850037B97C /* AddIngredientsView.swift in Sources */,
 				F2C005E125F6C4E10025162A /* RecipesList.swift in Sources */,
@@ -317,6 +345,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Swiftui-project-2-v1/Preview Content\"";
+				DEVELOPMENT_TEAM = 76LC8AC986;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Swiftui-project-2-v1/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -338,6 +367,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Swiftui-project-2-v1/Preview Content\"";
+				DEVELOPMENT_TEAM = 76LC8AC986;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Swiftui-project-2-v1/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
