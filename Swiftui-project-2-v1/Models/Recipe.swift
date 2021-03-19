@@ -14,6 +14,8 @@ struct Recipe: Identifiable, Codable {
     var description: String
     var directions: [Direction]
     
+    static let emptyRecipe = Recipe(name: "", ingredients: [], description: "", directions: [])
+    
     static let allRecipes: [Recipe] = [
         Recipe(name: "Apple Pie",
                ingredients: [
@@ -53,7 +55,7 @@ struct Recipe: Identifiable, Codable {
     ]
 }
 
-struct Direction: Identifiable, CustomStringConvertible, Codable {
+struct Direction: Identifiable, CustomStringConvertible, Codable, Hashable {
     var id = UUID()
     init(_ description: String, isRequired: Bool = true) {
         self.description = description
@@ -63,7 +65,7 @@ struct Direction: Identifiable, CustomStringConvertible, Codable {
     let isRequired: Bool
 }
 
-struct Ingredient: Identifiable, CustomStringConvertible, Codable {
+struct Ingredient: Identifiable, CustomStringConvertible, Codable, Hashable {
     var id = UUID()
     let name: String
     let quantity: Double

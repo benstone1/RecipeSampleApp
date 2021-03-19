@@ -9,8 +9,7 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     @State var isPresenting = false
-    let recipe: Recipe
-    let onEdit: (Recipe) -> Void
+    @Binding var recipe: Recipe
     
     var body: some View {
         VStack {
@@ -22,13 +21,23 @@ struct RecipeDetailView: View {
             }
             List {
                 Section(header: Text("Ingredients")) {
-                    ForEach(recipe.ingredients) { ingredient in
-                        Text(ingredient.description)
+                    if recipe.ingredients.isEmpty {
+                        Text("No Ingredients")
+                            .padding()
+                    } else {
+                        ForEach(Array(recipe.ingredients.enumerated()), id: \.1) { index, ingredient in
+                            Text(ingredient.description)
+                        }
                     }
                 }
                 Section(header: Text("Directions")) {
-                    ForEach(recipe.directions.indices) { i in
-                        Text("\(i+1). ").bold() + Text(recipe.directions[i].description)
+                    if recipe.directions.isEmpty {
+                        Text("No Directions")
+                            .padding()
+                    } else {
+                        ForEach(Array(recipe.directions.enumerated()), id: \.1) { index, direction in
+                            Text("\(index + 1). ").bold() + Text(direction.description)
+                        }
                     }
                 }
             }
@@ -43,11 +52,13 @@ struct RecipeDetailView: View {
         })
         .sheet(isPresented: $isPresenting) {
             NavigationView {
-                CreateRecipeView(name: recipe.name,
-                                 description: recipe.description,
-                                 ingredients: recipe.ingredients,
-                                 directions: recipe.directions) { (newRecipe) in
-                    onEdit(newRecipe)
+                ModifyRecipeView(recipe: $recipe, style: .edit)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Save") {
+                            isPresenting = false
+                        }
+                    }
                 }
             }
         }
@@ -56,7 +67,7 @@ struct RecipeDetailView: View {
 
 struct RecipeDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeDetailView(recipe: Recipe.allRecipes[0], onEdit: { _ in return })
+        Circle()
     }
 }
 

@@ -7,20 +7,25 @@
 
 import SwiftUI
 
+struct RecipeView: View {
+    @Binding var recipe: Recipe
+    
+    var body: some View {
+        NavigationLink(recipe.name, destination: RecipeDetailView(recipe: $recipe))
+    }
+}
+
 struct RecipesList: View {
     @AppStorage("recipes") var recipes: [Recipe] = Recipe.allRecipes
     @State var isPresenting = false
-        
+    @State var newRecipe = Recipe.emptyRecipe
+    
     var body: some View {
         NavigationView {
             VStack {
                 List(recipes) { recipe in
-                    NavigationLink(recipe.name,
-                                   destination: RecipeDetailView(recipe: recipe) { editedRecipe in
-                                    return
-//                                    let matchingIndex = recipes.firstIndex(where: { $0.id == editedRecipe.id })!
-//                                    recipes[matchingIndex] = editedRecipe
-                                   })
+                    let recipeIndex = recipes.firstIndex(where: { $0.id == recipe.id })!
+                    RecipeView(recipe: $recipes[recipeIndex])
                 }
             }
             .navigationBarTitle("Recipes")
@@ -33,12 +38,16 @@ struct RecipesList: View {
             })
             .sheet(isPresented: $isPresenting) {
                 NavigationView {
-                    CreateRecipeView { newRecipe in
-                        recipes.append(newRecipe)
-                    }
+                    ModifyRecipeView(recipe: $newRecipe, style: .create)
                     .toolbar {
-                        ToolbarItem(placement: .primaryAction) {
+                        ToolbarItem(placement: .cancellationAction) {
                             Button("Dismiss") {
+                                isPresenting = false
+                            }
+                        }
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Add") {
+                                recipes.append(newRecipe)
                                 isPresenting = false
                             }
                         }
