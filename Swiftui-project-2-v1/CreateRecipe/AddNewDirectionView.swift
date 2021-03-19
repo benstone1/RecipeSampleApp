@@ -8,22 +8,39 @@
 import SwiftUI
 
 struct AddNewDirectionView: AddNewElementView {
+    
+    // MARK: - AddElementsView Conformance
+    
     typealias Element = Direction
     
-    @Environment(\.presentationMode) var mode
     let onCreate: (Direction) -> Void
-    @State var step = ""
+
     init(onCreate: @escaping (Direction) -> Void) {
         self.onCreate = onCreate
     }
+    
+    // MARK: - Environment and State
+    
+    @Environment(\.presentationMode) private var mode
+    
+    @State private var step = "Set the oven to 300℉"
+    @State private var isRequired = true
+    @State private var userDidTapOnText = false
 
     var body: some View {
-        VStack {
-            TextField("Set the oven to 300℉", text: $step)
-                .padding()
-            Button("Add Step") {
-                onCreate(Direction(step))
-                mode.wrappedValue.dismiss()
+        Form {
+            TextEditor(text: $step)
+                .padding(20)
+                .foregroundColor(userDidTapOnText ? .black : .gray)
+                .onTapGesture { userDidTapOnText = true }
+            Toggle("Required", isOn: $isRequired)
+            HStack {
+                Spacer()
+                Button("Add Step") {
+                    onCreate(Direction(step))
+                    mode.wrappedValue.dismiss()
+                }
+                Spacer()
             }
         }
     }

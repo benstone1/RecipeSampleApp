@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Recipe: Identifiable {
+struct Recipe: Identifiable, Codable {
     var id = UUID()
     let name: String
     let ingredients: [Ingredient]
@@ -21,7 +21,10 @@ struct Recipe: Identifiable {
                 Ingredient(name: "Sugar", quantity: 1, unit: .cups)
                ],
                description: "It's great!",
-               directions: ["Combine", "Bake"].map(Direction.init)),
+               directions: [
+                Direction("Combine"),
+                Direction("Bake")
+               ]),
         Recipe(name: "Banana Bread",
                ingredients: [
                 Ingredient(name: "Banana", quantity: 5, unit: .none),
@@ -30,7 +33,10 @@ struct Recipe: Identifiable {
                 Ingredient(name: "Flour", quantity: 1, unit: .cups)
                ],
                description: "Delicious!",
-               directions: ["Combine", "Bake"].map(Direction.init)),
+               directions: [
+                Direction("Combine"),
+                Direction("Bake")
+               ]),
         Recipe(name: "Carrot Cake",
                ingredients: [
                 Ingredient(name: "Carrot", quantity: 3, unit: .none),
@@ -39,20 +45,25 @@ struct Recipe: Identifiable {
                 Ingredient(name: "Flour", quantity: 1, unit: .cups)
                ],
                description: "Carroty!",
-               directions: ["Combine all of the ingredients together.  Just as our ancestors did when originally gathering food from the harvest, now it your turn.", "Bake", "Add Frosting"].map(Direction.init)),
+               directions: [
+                Direction("Combine all of the ingredients together.  Just as our ancestors did when originally gathering food from the harvest, now it your turn."),
+                Direction("Bake"),
+                Direction("Add Frosting")
+               ])
     ]
 }
 
-struct Direction: Identifiable, CustomStringConvertible {
+struct Direction: Identifiable, CustomStringConvertible, Codable {
     var id = UUID()
-    init(_ description: String) {
+    init(_ description: String, isRequired: Bool = true) {
         self.description = description
+        self.isRequired = true
     }
     let description: String
-    let isOptional: Bool = false
+    let isRequired: Bool
 }
 
-struct Ingredient: Identifiable, CustomStringConvertible {
+struct Ingredient: Identifiable, CustomStringConvertible, Codable {
     var id = UUID()
     let name: String
     let quantity: Double
@@ -74,7 +85,7 @@ struct Ingredient: Identifiable, CustomStringConvertible {
         }
     }
     
-    enum Unit: String, CaseIterable, Identifiable {
+    enum Unit: String, CaseIterable, Identifiable, Codable {
         var id: Unit { self }
         
         case oz = "Ounces"

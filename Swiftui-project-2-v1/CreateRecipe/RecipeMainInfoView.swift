@@ -12,32 +12,24 @@ struct RecipeMainInfoView: View {
     @Binding var description: String
 
     var body: some View {
-        VStack {
+        Form {
             HStack {
                 Text("Name:")
                     .padding()
                 TextField("Apple Pie", text: $name)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
             }
             VStack {
-                HStack {
-                    Text("Description:")
-                        .padding()
-                    Spacer()
-                }
+                Text("Description")
                 TextEditor(text: $description)
-                    .border(Color.black)
-                    .padding([.leading, .trailing])
             }
-            Spacer()
+            .padding()
         }
     }
 }
 
 struct RecipeMainInfoView_Previews: PreviewProvider {
     @State static var name: String = ""
-    @State static var description: String = ""
+    @State static var description: String = "Sample description"
     
     static var previews: some View {
         RecipeMainInfoView(name: $name, description: $description)

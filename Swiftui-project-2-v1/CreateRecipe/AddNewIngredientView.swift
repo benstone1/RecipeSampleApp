@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct AddNewIngredientView: AddNewElementView {
+    
+    // MARK: - AddElementsView Conformance
+
     typealias Element = Ingredient
     
-    @Environment(\.presentationMode) var mode
-    @State var selectedUnit: Ingredient.Unit = .cups
-    @State var ingredientName = ""
-    @State var quantity: Double = 1
-    let formatter: NumberFormatter
+    private let formatter: NumberFormatter
     let onCreate: (Ingredient) -> Void
     
     init(onCreate: @escaping (Ingredient) -> Void) {
@@ -23,6 +22,13 @@ struct AddNewIngredientView: AddNewElementView {
         self.formatter = formatter
         self.onCreate = onCreate
     }
+    
+    // MARK: - Environment and State
+    
+    @Environment(\.presentationMode) var mode
+    @State private var selectedUnit: Ingredient.Unit = .cups
+    @State private var ingredientName = ""
+    @State private var quantity: Double = 1
     
     var body: some View {
             Form {

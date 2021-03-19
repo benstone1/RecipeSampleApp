@@ -16,7 +16,7 @@ protocol AddNewElementView: View {
 struct AddElementsView<Element: Identifiable & CustomStringConvertible, DestinationView: AddNewElementView>: View where Element == DestinationView.Element {
     @Binding var elements: [Element]
                 
-    var elementName: String { String(describing: Element.self).lowercased() }
+    private var elementName: String { String(describing: Element.self).lowercased() }
     
     var body: some View {
         VStack {
