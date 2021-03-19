@@ -27,6 +27,5 @@ extension Array: RawRepresentable where Element: Codable {
         catch {
             fatalError()
         }
-
     }
 }

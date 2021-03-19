@@ -9,10 +9,10 @@ import Foundation
 
 struct Recipe: Identifiable, Codable {
     var id = UUID()
-    let name: String
-    let ingredients: [Ingredient]
-    let description: String
-    let directions: [Direction]
+    var name: String
+    var ingredients: [Ingredient]
+    var description: String
+    var directions: [Direction]
     
     static let allRecipes: [Recipe] = [
         Recipe(name: "Apple Pie",
