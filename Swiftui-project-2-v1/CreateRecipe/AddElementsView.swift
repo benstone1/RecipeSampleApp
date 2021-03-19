@@ -28,6 +28,11 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible, Destinat
                 NavigationLink("Add the first \(elementName)", destination: addElementView)
                 Spacer()
             } else {
+                HStack {
+                    Spacer()
+                    EditButton()
+                        .padding()
+                }
                 List {
                     ForEach(elements) { element in
                         Text(element.description)
@@ -39,17 +44,15 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible, Destinat
                         .buttonStyle(PlainButtonStyle())
                         .foregroundColor(.blue)
                 }
-                .toolbar {
-                    EditButton()
-                }
             }
         }
     }
 }
 
 struct AddElementsView_Previews: PreviewProvider {
+    @State static var ingredients = [Ingredient]()
+    
     static var previews: some View {
-        Circle()
-//        AddElementsView<Ingredient>()
+        AddElementsView<Ingredient, AddNewIngredientView>(elements: $ingredients)
     }
 }

@@ -67,9 +67,9 @@ struct Ingredient: Identifiable, CustomStringConvertible {
             return "\(formattedQuanity) \(formattedName)"
         default:
             if quantity == 1 {
-                return "1 \(unit.rawValue) \(name)"
+                return "1 \(unit.singularName) \(name)"
             } else {
-                return "\(formattedQuanity) \(unit.pluralName) \(name) "
+                return "\(formattedQuanity) \(unit.rawValue) \(name) "
             }
         }
     }
@@ -77,65 +77,12 @@ struct Ingredient: Identifiable, CustomStringConvertible {
     enum Unit: String, CaseIterable, Identifiable {
         var id: Unit { self }
         
-        case oz = "Ounce"
-        case g = "Gram"
-        case cups = "Cup"
-        case tbs = "Tablespoon"
-        case tsp = "Teaspoon"
-        case none = "No unit"
-        var pluralName: String { self.rawValue + "s" }
+        case oz = "Ounces"
+        case g = "Grams"
+        case cups = "Cups"
+        case tbs = "Tablespoons"
+        case tsp = "Teaspoons"
+        case none = "No units"
+        var singularName: String { String(rawValue.dropLast()) }
     }
 }
-
-
-/*
- enum Volume: CustomStringConvertible {
-     case cups(Double)
-     case tbs(Double)
-     case tsp(Double)
-     
-     var description: String {
-         switch self {
-         case let .cups(cupCount): return "\(cupCount) Cups"
-         case let .tbs(tbsCount): return "\(tbsCount) Tablespoons"
-         case let .tsp(tspCount): return "\(tspCount) Teaspoons"
-         }
-     }
- }
- 
- enum Weight: CustomStringConvertible {
-     case lbs(Double)
-     case oz(Double)
-     case g(Double)
-     
-     var description: String {
-         switch self {
-         case let .lbs(lbsCount): return "\(lbsCount) Pounds"
-         case let .oz(ozCount): return "\(ozCount) Ounces"
-         case let .g(gCount): return "\(gCount) Grams"
-         }
-     }
- }
- enum Quantity: CustomStringConvertible, CaseIterable {
-     
-     case oz(Double)
-     case g(Double)
-     case cups(Double)
-     case tbs(Double)
-     case tsp(Double)
-     case number(Int)
-     
-     var description: String {
-         switch self {
-         case let .oz(weight): return "\(weight) Ounces"
-         case let .g(gramCount): return "\(gramCount) Grams"
-         case let .cups(cupCount): return "\(cupCount) Cups"
-         case let .tbs(tbsCount): return "\(tbsCount) Tablespoons"
-         case let .tsp(tspCount): return "\(tspCount) Teaspoons"
-         case let .number(count): return "\(count)"
-         }
-     }
- }
-
-
- */

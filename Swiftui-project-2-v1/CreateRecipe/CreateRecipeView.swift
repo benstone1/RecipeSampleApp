@@ -39,6 +39,7 @@ struct CreateRecipeView: View {
                                     directions: directions)
                 viewModel.save(recipe)
             }
+            .padding()
         }
         .navigationTitle("Create a New Recipe")
     }
