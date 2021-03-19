@@ -8,12 +8,20 @@
 import SwiftUI
 
 struct CreateRecipeView: View {
+    @Environment(\.presentationMode) var mode
+
     @State var selection = Selection.main
     @State var name = ""
     @State var description = ""
     @State var ingredients = [Ingredient]()
     @State var directions = [Direction]()
     let viewModel = ViewModel()
+    
+    var onSave: (Recipe) -> Void
+    
+    init(onSave: @escaping (Recipe) -> Void) {
+        self.onSave = onSave
+    }
     
     var body: some View {
         VStack {
@@ -37,7 +45,8 @@ struct CreateRecipeView: View {
                                     ingredients: ingredients,
                                     description: description,
                                     directions: directions)
-                viewModel.save(recipe)
+                onSave(recipe)
+                mode.wrappedValue.dismiss()
             }
             .padding()
         }
@@ -61,7 +70,6 @@ extension CreateRecipeView {
 
 struct CreateRecipeView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateRecipeView(ingredients: Recipe.allRecipes[0].ingredients)
-        CreateRecipeView(ingredients: [])
+        CreateRecipeView { _ in return }
     }
 }

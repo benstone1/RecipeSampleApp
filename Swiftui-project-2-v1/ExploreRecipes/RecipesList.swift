@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct RecipesList: View {
-    
-    var recipes = Recipe.allRecipes
+    @AppStorage("recipes") var recipes: [Recipe] = Recipe.allRecipes
     
     var body: some View {
         NavigationView {
@@ -21,7 +20,9 @@ struct RecipesList: View {
             }
             .navigationBarTitle("Recipes")
             .toolbar(content: {
-                NavigationLink("New Recipe", destination: CreateRecipeView())
+                NavigationLink("New Recipe", destination: CreateRecipeView { newRecipe in
+                    recipes.append(newRecipe)
+                })
             })
         }
     }

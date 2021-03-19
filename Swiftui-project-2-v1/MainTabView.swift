@@ -12,7 +12,7 @@ struct MainTabView: View {
         TabView {
             RecipesList()
                 .tabItem { Label("Recipes", systemImage: "list.dash") }
-            Text("Settings")
+            SettingsView()
                 .tabItem { Label("Settings", systemImage: "gear") }
         }
     }
