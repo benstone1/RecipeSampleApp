@@ -55,22 +55,36 @@ struct Recipe: Identifiable, Codable {
     ]
 }
 
-struct Direction: Identifiable, CustomStringConvertible, Codable, Hashable {
+struct Direction: Identifiable, CustomStringConvertible, Codable, Hashable, EmptyInitializable {
     var id = UUID()
     init(_ description: String, isRequired: Bool = true) {
         self.description = description
+        self.isRequired = true
+    }
+    init() {
+        self.description = ""
         self.isRequired = true
     }
     let description: String
     let isRequired: Bool
 }
 
-struct Ingredient: Identifiable, CustomStringConvertible, Codable, Hashable {
+struct Ingredient: Identifiable, CustomStringConvertible, Codable, Hashable, EmptyInitializable {
     var id = UUID()
-    let name: String
-    let quantity: Double
-    let unit: Unit
-    
+    var name: String
+    var quantity: Double
+    var unit: Unit
+    init(name: String, quantity: Double, unit: Unit) {
+        self.name = name
+        self.quantity = quantity
+        self.unit = unit
+    }
+
+    init() {
+        self.name = ""
+        self.quantity = 1
+        self.unit = .none
+    }
     
     var description: String {
         let formattedQuanity = String(format: "%g", quantity)

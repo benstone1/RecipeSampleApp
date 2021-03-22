@@ -9,26 +9,32 @@ import SwiftUI
 
 
 enum ViewStyle<Element> {
-    case create
-    case edit(Element)
+    case create((Element) -> Void)
+    case edit
 }
 
 protocol AddNewElementView: View {
     associatedtype Element
-    init(viewStyle: ViewStyle<Element>, onCreate: @escaping (Element) -> Void)
-    var onCreate: (Element) -> Void { get }
+    init(element: Binding<Element>, viewStyle: ViewStyle<Element>)
 }
 
-struct AddElementsView<Element: Identifiable & CustomStringConvertible, DestinationView: AddNewElementView>: View where Element == DestinationView.Element {
+protocol EmptyInitializable {
+    init()
+}
+
+struct AddElementsView<Element: Identifiable & CustomStringConvertible & EmptyInitializable, DestinationView: AddNewElementView>: View where Element == DestinationView.Element {
     @Binding var elements: [Element]
-                
+    @State var newElement = Element()
+    
     private var elementName: String { String(describing: Element.self).lowercased() }
     
     var body: some View {
         VStack {
-            let addElementView = DestinationView(viewStyle: .create) { newElement in
+            let addElementView = DestinationView(element: $newElement, viewStyle: .create({ newElement in
                 elements.append(newElement)
-            }
+                self.newElement = Element()
+                print("Created the element")
+            }))
             if elements.isEmpty {
                 Spacer()
                 NavigationLink("Add the first \(elementName)", destination: addElementView)
@@ -42,9 +48,7 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible, Destinat
                 List {
                     ForEach(elements.indices) { index in
                         let element = elements[index]
-                        NavigationLink(element.description, destination: DestinationView(viewStyle: .edit(element), onCreate: { editedElement in
-                            elements[index] = editedElement
-                        }))
+                        NavigationLink(element.description, destination: DestinationView(element: $elements[index], viewStyle: .edit))
                     }
                     .onDelete { elements.remove(atOffsets: $0) }
                     .onMove { indices, newOffet in elements.move(fromOffsets: indices, toOffset: newOffet) }

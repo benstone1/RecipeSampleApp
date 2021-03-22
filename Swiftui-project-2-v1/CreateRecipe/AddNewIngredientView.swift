@@ -8,66 +8,53 @@
 import SwiftUI
 
 struct AddNewIngredientView: AddNewElementView {
-
-    // MARK: - AddElementsView Conformance
-
-    typealias Element = Ingredient
     
-    let onCreate: (Ingredient) -> Void
+    // MARK: - AddElementsView Conformance
+    
+    typealias Element = Ingredient
+        
     let viewStyle: ViewStyle<Ingredient>
     
     private let formatter: NumberFormatter
     
-    init(viewStyle: ViewStyle<Ingredient> = .create, onCreate: @escaping (Ingredient) -> Void) {
+    init(element: Binding<Ingredient>, viewStyle: ViewStyle<Ingredient> = .edit) {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         self.formatter = formatter
-        self.onCreate = onCreate
         self.viewStyle = viewStyle
+        self._ingredient = element
     }
     
     // MARK: - Environment and State
     
     @Environment(\.presentationMode) var mode
-    @State private var selectedUnit: Ingredient.Unit = .cups
-    @State private var ingredientName = ""
-    @State private var quantity: Double = 1
+    @Binding private var ingredient: Ingredient
     
     var body: some View {
-            Form {
-                TextField("Apple", text: $ingredientName)
-                Stepper(value: $quantity, in: 0...100, step: 0.5) {
-                    HStack {
-                        Text("Quantity:")
-                        TextField("Quantity", value: $quantity, formatter: formatter)
-                            .keyboardType(.numbersAndPunctuation)
-                    }
-                }
-                Picker("Unit", selection: $selectedUnit) {
-                    ForEach(Ingredient.Unit.allCases) { unit in
-                        Text(unit.rawValue)
-                    }
-                }
+        Form {
+            TextField("Apple", text: $ingredient.name)
+            Stepper(value: $ingredient.quantity, in: 0...100, step: 0.5) {
                 HStack {
-                    Spacer()
-                    Button("Save new ingredient") {
-                        let newIngredient = Ingredient(name: ingredientName,
-                                                       quantity: quantity,
-                                                       unit: selectedUnit)
-                        onCreate(newIngredient)
-                        mode.wrappedValue.dismiss()
-                    }
-                    Spacer()
+                    Text("Quantity:")
+                    TextField("Quantity", value: $ingredient.quantity, formatter: formatter)
+                        .keyboardType(.numbersAndPunctuation)
                 }
             }
-            .navigationBarTitle("Add Ingredient")
+            Picker("Unit", selection: $ingredient.unit) {
+                ForEach(Ingredient.Unit.allCases) { unit in
+                    Text(unit.rawValue)
+                }
+            }
+            SaveButton(element: $ingredient, viewStyle: viewStyle)
         }
+        .navigationBarTitle("Add Ingredient")
+    }
 }
 
 struct AddNewIngredientView_Previews: PreviewProvider {
+    @State static var ingredient = Ingredient()
+    
     static var previews: some View {
-        AddNewIngredientView { ingredient in
-            print("Added \(ingredient)")
-        }
+        AddNewIngredientView(element: $ingredient, viewStyle: .edit)
     }
 }

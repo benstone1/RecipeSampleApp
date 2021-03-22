@@ -13,12 +13,13 @@ struct AddNewDirectionView: AddNewElementView {
     
     typealias Element = Direction
     
-    let onCreate: (Direction) -> Void
+    
     let viewStyle: ViewStyle<Direction>
-
-    init(viewStyle: ViewStyle<Direction> = .create, onCreate: @escaping (Direction) -> Void) {
-        self.onCreate = onCreate
+    let direction: Binding<Direction>
+    
+    init(element: Binding<Direction>, viewStyle: ViewStyle<Direction> = .edit) {
         self.viewStyle = viewStyle
+        self.direction = element
     }
     
     // MARK: - Environment and State
@@ -36,20 +37,35 @@ struct AddNewDirectionView: AddNewElementView {
                 .foregroundColor(userDidTapOnText ? .black : .gray)
                 .onTapGesture { userDidTapOnText = true }
             Toggle("Required", isOn: $isRequired)
+            SaveButton(element: direction, viewStyle: viewStyle)
+        }
+    }
+}
+
+struct SaveButton<Element>: View {
+    @Environment(\.presentationMode) private var mode
+    @Binding var element: Element
+    let viewStyle: ViewStyle<Element>
+    
+    var body: some View {
+        switch viewStyle {
+        case let .create(onCreate):
             HStack {
                 Spacer()
                 Button("Add Step") {
-                    onCreate(Direction(step))
+                    onCreate(element)
                     mode.wrappedValue.dismiss()
                 }
                 Spacer()
             }
+        case .edit: EmptyView()
         }
     }
 }
 
 struct AddNewDirectionView_Previews: PreviewProvider {
+    @State static var direction = Direction("Bake")
     static var previews: some View {
-        AddNewDirectionView { _ in return }
+        AddNewDirectionView(element: $direction, viewStyle: .edit)
     }
 }
