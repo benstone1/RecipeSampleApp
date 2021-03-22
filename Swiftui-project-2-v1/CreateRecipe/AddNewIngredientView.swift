@@ -38,7 +38,7 @@ struct AddNewIngredientView: AddNewElementView {
                     HStack {
                         Text("Quantity:")
                         TextField("Quantity", value: $quantity, formatter: formatter)
-                            .keyboardType(.decimalPad)
+                            .keyboardType(.numbersAndPunctuation)
                     }
                 }
                 Picker("Unit", selection: $selectedUnit) {
