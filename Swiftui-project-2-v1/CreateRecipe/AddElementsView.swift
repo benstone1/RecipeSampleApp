@@ -7,9 +7,15 @@
 
 import SwiftUI
 
+
+enum ViewStyle<Element> {
+    case create
+    case edit(Element)
+}
+
 protocol AddNewElementView: View {
     associatedtype Element
-    init(onCreate: @escaping (Element) -> Void)
+    init(viewStyle: ViewStyle<Element>, onCreate: @escaping (Element) -> Void)
     var onCreate: (Element) -> Void { get }
 }
 
@@ -20,7 +26,7 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible, Destinat
     
     var body: some View {
         VStack {
-            let addElementView = DestinationView { newElement in
+            let addElementView = DestinationView(viewStyle: .create) { newElement in
                 elements.append(newElement)
             }
             if elements.isEmpty {
@@ -34,8 +40,11 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible, Destinat
                         .padding()
                 }
                 List {
-                    ForEach(elements) { element in
-                        Text(element.description)
+                    ForEach(elements.indices) { index in
+                        let element = elements[index]
+                        NavigationLink(element.description, destination: DestinationView(viewStyle: .edit(element), onCreate: { editedElement in
+                            elements[index] = editedElement
+                        }))
                     }
                     .onDelete { elements.remove(atOffsets: $0) }
                     .onMove { indices, newOffet in elements.move(fromOffsets: indices, toOffset: newOffet) }

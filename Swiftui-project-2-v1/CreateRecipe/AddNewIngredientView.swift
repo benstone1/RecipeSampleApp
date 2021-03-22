@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct AddNewIngredientView: AddNewElementView {
-    
+
     // MARK: - AddElementsView Conformance
 
     typealias Element = Ingredient
     
     let onCreate: (Ingredient) -> Void
+    let viewStyle: ViewStyle<Ingredient>
     
     private let formatter: NumberFormatter
     
-    init(onCreate: @escaping (Ingredient) -> Void) {
+    init(viewStyle: ViewStyle<Ingredient> = .create, onCreate: @escaping (Ingredient) -> Void) {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         self.formatter = formatter
         self.onCreate = onCreate
+        self.viewStyle = viewStyle
     }
     
     // MARK: - Environment and State

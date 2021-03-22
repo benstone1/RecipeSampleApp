@@ -14,9 +14,11 @@ struct AddNewDirectionView: AddNewElementView {
     typealias Element = Direction
     
     let onCreate: (Direction) -> Void
+    let viewStyle: ViewStyle<Direction>
 
-    init(onCreate: @escaping (Direction) -> Void) {
+    init(viewStyle: ViewStyle<Direction> = .create, onCreate: @escaping (Direction) -> Void) {
         self.onCreate = onCreate
+        self.viewStyle = viewStyle
     }
     
     // MARK: - Environment and State
