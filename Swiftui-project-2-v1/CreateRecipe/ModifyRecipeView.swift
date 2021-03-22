@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ModifyRecipeView: View {
-    @Environment(\.presentationMode) var mode
-    
+
     @State var selection = Selection.main
     @Binding var recipe: Recipe
+    
     let style: ViewStyle
     
     var body: some View {

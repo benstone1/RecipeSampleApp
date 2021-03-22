@@ -13,8 +13,9 @@ struct AddNewIngredientView: AddNewElementView {
 
     typealias Element = Ingredient
     
-    private let formatter: NumberFormatter
     let onCreate: (Ingredient) -> Void
+    
+    private let formatter: NumberFormatter
     
     init(onCreate: @escaping (Ingredient) -> Void) {
         let formatter = NumberFormatter()
