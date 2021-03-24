@@ -15,11 +15,11 @@ struct AddNewDirectionView: AddNewElementView {
     
     
     let viewStyle: ViewStyle<Direction>
-    let direction: Binding<Direction>
+    @Binding var direction: Direction
     
     init(element: Binding<Direction>, viewStyle: ViewStyle<Direction> = .edit) {
         self.viewStyle = viewStyle
-        self.direction = element
+        self._direction = element
     }
     
     // MARK: - Environment and State
@@ -37,7 +37,7 @@ struct AddNewDirectionView: AddNewElementView {
                 .foregroundColor(userDidTapOnText ? .black : .gray)
                 .onTapGesture { userDidTapOnText = true }
             Toggle("Required", isOn: $isRequired)
-            SaveButton(element: direction, viewStyle: viewStyle)
+            SaveButton(element: $direction, viewStyle: viewStyle)
         }
     }
 }
@@ -52,7 +52,7 @@ struct SaveButton<Element>: View {
         case let .create(onCreate):
             HStack {
                 Spacer()
-                Button("Add Step") {
+                Button("Save") {
                     onCreate(element)
                     mode.wrappedValue.dismiss()
                 }

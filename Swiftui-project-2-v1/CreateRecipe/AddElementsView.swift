@@ -46,7 +46,7 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible & EmptyIn
                         .padding()
                 }
                 List {
-                    ForEach(elements.indices) { index in
+                    ForEach(elements.indices, id: \.self) { index in
                         let element = elements[index]
                         NavigationLink(element.description, destination: DestinationView(element: $elements[index], viewStyle: .edit))
                     }

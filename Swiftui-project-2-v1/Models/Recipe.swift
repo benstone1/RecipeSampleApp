@@ -9,53 +9,35 @@ import Foundation
 
 struct Recipe: Identifiable, Codable {
     var id = UUID()
-    var name: String
+    var mainInformation: MainInformation
     var ingredients: [Ingredient]
-    var description: String
     var directions: [Direction]
     
-    static let emptyRecipe = Recipe(name: "", ingredients: [], description: "", directions: [])
     
-    static let allRecipes: [Recipe] = [
-        Recipe(name: "Apple Pie",
-               ingredients: [
-                Ingredient(name: "Apple", quantity: 3, unit: .none),
-                Ingredient(name: "Sugar", quantity: 1, unit: .cups)
-               ],
-               description: "It's great!",
-               directions: [
-                Direction("Combine"),
-                Direction("Bake")
-               ]),
-        Recipe(name: "Banana Bread",
-               ingredients: [
-                Ingredient(name: "Banana", quantity: 5, unit: .none),
-                Ingredient(name: "Sugar", quantity: 0.5, unit: .cups),
-                Ingredient(name: "Butter", quantity: 8, unit: .tbs),
-                Ingredient(name: "Flour", quantity: 1, unit: .cups)
-               ],
-               description: "Delicious!",
-               directions: [
-                Direction("Combine"),
-                Direction("Bake")
-               ]),
-        Recipe(name: "Carrot Cake",
-               ingredients: [
-                Ingredient(name: "Carrot", quantity: 3, unit: .none),
-                Ingredient(name: "Sugar", quantity: 0.75, unit: .cups),
-                Ingredient(name: "Cream Cheese", quantity: 8, unit: .oz),
-                Ingredient(name: "Flour", quantity: 1, unit: .cups)
-               ],
-               description: "Carroty!",
-               directions: [
-                Direction("Combine all of the ingredients together.  Just as our ancestors did when originally gathering food from the harvest, now it your turn."),
-                Direction("Bake"),
-                Direction("Add Frosting")
-               ])
-    ]
+    static let emptyRecipe = Recipe(mainInformation:
+                                        MainInformation(name: "", description: "", category: .breakfast),
+                                    ingredients: [],
+                                    directions: [])
 }
 
-struct Direction: Identifiable, CustomStringConvertible, Codable, Hashable, EmptyInitializable {
+struct MainInformation: Codable, Identifiable {
+    var id = UUID()
+    
+    var name: String
+    var description: String
+    var category: Category
+    
+    enum Category: String, CaseIterable, Identifiable, Codable {
+        var id: String { rawValue }
+        
+        case breakfast
+        case lunch
+        case dinner
+        case dessert
+    }
+}
+
+struct Direction: Identifiable, CustomStringConvertible, Codable, EmptyInitializable {
     var id = UUID()
     init(_ description: String, isRequired: Bool = true) {
         self.description = description
@@ -69,7 +51,7 @@ struct Direction: Identifiable, CustomStringConvertible, Codable, Hashable, Empt
     let isRequired: Bool
 }
 
-struct Ingredient: Identifiable, CustomStringConvertible, Codable, Hashable, EmptyInitializable {
+struct Ingredient: Identifiable, CustomStringConvertible, Codable, EmptyInitializable {
     var id = UUID()
     var name: String
     var quantity: Double
@@ -79,7 +61,7 @@ struct Ingredient: Identifiable, CustomStringConvertible, Codable, Hashable, Emp
         self.quantity = quantity
         self.unit = unit
     }
-
+    
     init() {
         self.name = ""
         self.quantity = 1
@@ -112,4 +94,51 @@ struct Ingredient: Identifiable, CustomStringConvertible, Codable, Hashable, Emp
         case none = "No units"
         var singularName: String { String(rawValue.dropLast()) }
     }
+}
+
+
+extension Recipe {
+    static let allRecipes: [Recipe] = [
+        Recipe(mainInformation: MainInformation(name: "Apple Pie", description: "It's great!", category: .dessert),
+               ingredients: [
+                Ingredient(name: "Apple", quantity: 3, unit: .none),
+                Ingredient(name: "Sugar", quantity: 1, unit: .cups)
+               ],
+               directions: [
+                Direction("Combine"),
+                Direction("Bake")
+               ]),
+        Recipe(mainInformation: MainInformation(name: "Banana Bread", description: "Delicious!", category: .dessert),
+               ingredients: [
+                Ingredient(name: "Banana", quantity: 5, unit: .none),
+                Ingredient(name: "Sugar", quantity: 0.5, unit: .cups),
+                Ingredient(name: "Butter", quantity: 8, unit: .tbs),
+                Ingredient(name: "Flour", quantity: 1, unit: .cups)
+               ],
+               directions: [
+                Direction("Combine"),
+                Direction("Bake")
+               ]),
+        Recipe(mainInformation: MainInformation(name: "Beef Wellington", description: "Beefy!", category: .dinner),
+               ingredients: [
+                Ingredient(name: "Beef", quantity: 5, unit: .none),
+                Ingredient(name: "Wellington", quantity: 1, unit: .cups),
+               ],
+               directions: [
+                Direction("Combine"),
+                Direction("Bake")
+               ]),
+        Recipe(mainInformation: MainInformation(name: "Carrot Cake", description: "Carroty!", category: .dessert),
+               ingredients: [
+                Ingredient(name: "Carrot", quantity: 3, unit: .none),
+                Ingredient(name: "Sugar", quantity: 0.75, unit: .cups),
+                Ingredient(name: "Cream Cheese", quantity: 8, unit: .oz),
+                Ingredient(name: "Flour", quantity: 1, unit: .cups)
+               ],
+               directions: [
+                Direction("Combine all of the ingredients together.  Just as our ancestors did when originally gathering food from the harvest, now it your turn."),
+                Direction("Bake"),
+                Direction("Add Frosting")
+               ]),
+    ]
 }

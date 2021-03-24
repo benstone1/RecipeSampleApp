@@ -14,7 +14,7 @@ struct RecipeDetailView: View {
     var body: some View {
         VStack {
             HStack {
-                Text(recipe.description)
+                Text(recipe.mainInformation.description)
                     .font(.subheadline)
                     .padding()
                 Spacer()
@@ -25,7 +25,7 @@ struct RecipeDetailView: View {
                         Text("No Ingredients")
                             .padding()
                     } else {
-                        ForEach(Array(recipe.ingredients.enumerated()), id: \.1) { index, ingredient in
+                        ForEach(recipe.ingredients) { ingredient in
                             Text(ingredient.description)
                         }
                     }
@@ -35,20 +35,22 @@ struct RecipeDetailView: View {
                         Text("No Directions")
                             .padding()
                     } else {
-                        ForEach(Array(recipe.directions.enumerated()), id: \.1) { index, direction in
-                            Text("\(index + 1). ").bold() + Text(direction.description)
+                        ForEach(recipe.directions.indices, id: \.self) { index in
+                            Text("\(index + 1). ").bold() + Text(recipe.directions[index].description)
                         }
                     }
                 }
             }
         }
-        .navigationTitle(recipe.name)
+        .navigationTitle(recipe.mainInformation.name)
         .toolbar(content: {
             ToolbarItem {
                 Button("Edit") {
                     isPresenting = true
                 }
             }
+            // https://stackoverflow.com/questions/64405106/toolbar-is-deleting-my-back-button-in-the-navigationview
+            ToolbarItem(placement: .navigationBarLeading) { Text("") }
         })
         .sheet(isPresented: $isPresenting) {
             NavigationView {
@@ -66,8 +68,9 @@ struct RecipeDetailView: View {
 }
 
 struct RecipeDetailView_Previews: PreviewProvider {
+    @State static var recipe = Recipe.emptyRecipe
     static var previews: some View {
-        Circle()
+        RecipeDetailView(recipe: $recipe)
     }
 }
 

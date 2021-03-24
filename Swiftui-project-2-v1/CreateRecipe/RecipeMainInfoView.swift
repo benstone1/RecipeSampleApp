@@ -8,19 +8,23 @@
 import SwiftUI
 
 struct RecipeMainInfoView: View {
-    @Binding var name: String
-    @Binding var description: String
-
+    @Binding var mainInformation: MainInformation
+    
     var body: some View {
         Form {
             HStack {
                 Text("Name:")
                     .padding()
-                TextField("Apple Pie", text: $name)
+                TextField("Apple Pie", text: $mainInformation.name)
             }
             VStack {
                 Text("Description")
-                TextEditor(text: $description)
+                TextEditor(text: $mainInformation.description)
+            }
+            Picker("Category", selection: $mainInformation.category) {
+                ForEach(MainInformation.Category.allCases) { category in
+                    Text(category.rawValue)
+                }
             }
             .padding()
         }
@@ -28,10 +32,10 @@ struct RecipeMainInfoView: View {
 }
 
 struct RecipeMainInfoView_Previews: PreviewProvider {
-    @State static var name: String = ""
-    @State static var description: String = "Sample description"
+    @State static var mainInformation = MainInformation(name: "Test Name", description: "Test Description", category: .breakfast)
+    
     
     static var previews: some View {
-        RecipeMainInfoView(name: $name, description: $description)
+        RecipeMainInfoView(mainInformation: $mainInformation)
     }
 }

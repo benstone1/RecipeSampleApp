@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     var body: some View {
         TabView {
-            RecipesList()
+            RecipeCategoryGrid()
                 .tabItem { Label("Recipes", systemImage: "list.dash") }
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gear") }

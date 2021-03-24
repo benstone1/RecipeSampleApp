@@ -5,6 +5,14 @@
 //  Created by Ben Stone on 3/17/21.
 //
 
+extension NumberFormatter {
+    static var decimal: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }
+}
+
 import SwiftUI
 
 struct AddNewIngredientView: AddNewElementView {
@@ -14,29 +22,22 @@ struct AddNewIngredientView: AddNewElementView {
     typealias Element = Ingredient
         
     let viewStyle: ViewStyle<Ingredient>
-    
-    private let formatter: NumberFormatter
-    
+    @Binding var ingredient: Ingredient
+        
     init(element: Binding<Ingredient>, viewStyle: ViewStyle<Ingredient> = .edit) {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        self.formatter = formatter
         self.viewStyle = viewStyle
         self._ingredient = element
     }
     
     // MARK: - Environment and State
-    
-    @Environment(\.presentationMode) var mode
-    @Binding private var ingredient: Ingredient
-    
+        
     var body: some View {
         Form {
             TextField("Apple", text: $ingredient.name)
             Stepper(value: $ingredient.quantity, in: 0...100, step: 0.5) {
                 HStack {
                     Text("Quantity:")
-                    TextField("Quantity", value: $ingredient.quantity, formatter: formatter)
+                    TextField("Quantity", value: $ingredient.quantity, formatter: NumberFormatter.decimal)
                         .keyboardType(.numbersAndPunctuation)
                 }
             }
