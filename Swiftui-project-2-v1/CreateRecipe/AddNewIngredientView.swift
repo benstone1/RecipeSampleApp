@@ -5,67 +5,61 @@
 //  Created by Ben Stone on 3/17/21.
 //
 
+extension NumberFormatter {
+    static var decimal: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }
+}
+
 import SwiftUI
 
 struct AddNewIngredientView: AddNewElementView {
     
     // MARK: - AddElementsView Conformance
-
+    
     typealias Element = Ingredient
-    
-    let onCreate: (Ingredient) -> Void
-    
-    private let formatter: NumberFormatter
-    
-    init(onCreate: @escaping (Ingredient) -> Void) {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        self.formatter = formatter
-        self.onCreate = onCreate
+        
+    let viewStyle: ViewStyle<Ingredient>
+    @Binding var ingredient: Ingredient
+    @AppStorage("color") var color: Color = .green
+        
+    init(element: Binding<Ingredient>, viewStyle: ViewStyle<Ingredient> = .edit) {
+        self.viewStyle = viewStyle
+        self._ingredient = element
     }
     
     // MARK: - Environment and State
-    
-    @Environment(\.presentationMode) var mode
-    @State private var selectedUnit: Ingredient.Unit = .cups
-    @State private var ingredientName = ""
-    @State private var quantity: Double = 1
-    
+        
     var body: some View {
+        ZStack {
+            color.ignoresSafeArea()
             Form {
-                TextField("Apple", text: $ingredientName)
-                Stepper(value: $quantity, in: 0...100, step: 0.5) {
+                TextField("Apple", text: $ingredient.name)
+                Stepper(value: $ingredient.quantity, in: 0...100, step: 0.5) {
                     HStack {
                         Text("Quantity:")
-                        TextField("Quantity", value: $quantity, formatter: formatter)
+                        TextField("Quantity", value: $ingredient.quantity, formatter: NumberFormatter.decimal)
                             .keyboardType(.numbersAndPunctuation)
                     }
                 }
-                Picker("Unit", selection: $selectedUnit) {
+                Picker("Unit", selection: $ingredient.unit) {
                     ForEach(Ingredient.Unit.allCases) { unit in
                         Text(unit.rawValue)
                     }
                 }
-                HStack {
-                    Spacer()
-                    Button("Save new ingredient") {
-                        let newIngredient = Ingredient(name: ingredientName,
-                                                       quantity: quantity,
-                                                       unit: selectedUnit)
-                        onCreate(newIngredient)
-                        mode.wrappedValue.dismiss()
-                    }
-                    Spacer()
-                }
+                SaveButton(element: $ingredient, viewStyle: viewStyle)
             }
             .navigationBarTitle("Add Ingredient")
         }
+    }
 }
 
 struct AddNewIngredientView_Previews: PreviewProvider {
+    @State static var ingredient = Ingredient()
+    
     static var previews: some View {
-        AddNewIngredientView { ingredient in
-            print("Added \(ingredient)")
-        }
+        AddNewIngredientView(element: $ingredient, viewStyle: .edit)
     }
 }

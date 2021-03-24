@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F20B6067260B925200711758 /* RecipeCategoryGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20B6066260B925200711758 /* RecipeCategoryGrid.swift */; };
 		F22994F625FFB72D0037B97C /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22994F525FFB72D0037B97C /* RecipeDetailView.swift */; };
 		F22994FA25FFC2250037B97C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22994F925FFC2250037B97C /* MainTabView.swift */; };
 		F22994FD25FFC2820037B97C /* ModifyRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22994FC25FFC2820037B97C /* ModifyRecipeView.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F20B6066260B925200711758 /* RecipeCategoryGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecipeCategoryGrid.swift; path = "Swiftui-project-2-v1/ExploreRecipes/RecipeCategoryGrid.swift"; sourceTree = SOURCE_ROOT; };
 		F22994F525FFB72D0037B97C /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		F22994F925FFC2250037B97C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		F22994FC25FFC2820037B97C /* ModifyRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyRecipeView.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 		F2B15F132601507900F84A84 /* ExploreRecipes */ = {
 			isa = PBXGroup;
 			children = (
+				F20B6066260B925200711758 /* RecipeCategoryGrid.swift */,
 				F2C005E025F6C4E10025162A /* RecipesList.swift */,
 				F22994F525FFB72D0037B97C /* RecipeDetailView.swift */,
 			);
@@ -104,8 +107,8 @@
 			children = (
 				F2C005DE25F6C4E10025162A /* Swiftui_project_2_v1App.swift */,
 				F22994F925FFC2250037B97C /* MainTabView.swift */,
-				F276773B2604FDDC008CDD4A /* Models */,
 				F27677372604FAD8008CDD4A /* SettingsView.swift */,
+				F276773B2604FDDC008CDD4A /* Models */,
 				F2B15F132601507900F84A84 /* ExploreRecipes */,
 				F2B15F112601505D00F84A84 /* CreateRecipe */,
 				F2C005E225F6C4E20025162A /* Assets.xcassets */,
@@ -200,6 +203,7 @@
 				F2C005EF25F6C4F90025162A /* Recipe.swift in Sources */,
 				F2C005E125F6C4E10025162A /* RecipesList.swift in Sources */,
 				F2C005DF25F6C4E10025162A /* Swiftui_project_2_v1App.swift in Sources */,
+				F20B6067260B925200711758 /* RecipeCategoryGrid.swift in Sources */,
 				F22994F625FFB72D0037B97C /* RecipeDetailView.swift in Sources */,
 				F22994FA25FFC2250037B97C /* MainTabView.swift in Sources */,
 				F27677352604F917008CDD4A /* Array+RawRepresentable.swift in Sources */,

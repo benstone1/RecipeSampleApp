@@ -7,13 +7,25 @@
 
 import SwiftUI
 
+extension Color: RawRepresentable {
+    public init?(rawValue str: String) {
+        let components = str.dropFirst().dropLast().components(separatedBy: ",").map { Double($0.trimmingCharacters(in: .whitespaces))! }
+        self = Color(red: components[0], green: components[1], blue: components[2], opacity: components[3])
+    }
+
+    public var rawValue: String {
+        return UIColor(self).cgColor.components!.description
+    }
+}
+
 struct SettingsView: View {
-    @AppStorage("isRed") var isRed: Bool = false
+    @AppStorage("color") var color: Color = Color.white
     
     var body: some View {
         ZStack {
-            isRed ? Color.red : Color.blue
-            Toggle("Is Red", isOn: $isRed)
+            color.ignoresSafeArea()
+            ColorPicker("Color", selection: $color)
+                .padding()
         }
     }
 }

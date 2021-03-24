@@ -8,55 +8,61 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
+    @AppStorage("color") var color: Color = .green
     @State var isPresenting = false
     @Binding var recipe: Recipe
     
     var body: some View {
-        VStack {
-            HStack {
-                Text(recipe.description)
-                    .font(.subheadline)
-                    .padding()
-                Spacer()
-            }
-            List {
-                Section(header: Text("Ingredients")) {
-                    if recipe.ingredients.isEmpty {
-                        Text("No Ingredients")
-                            .padding()
-                    } else {
-                        ForEach(Array(recipe.ingredients.enumerated()), id: \.1) { index, ingredient in
-                            Text(ingredient.description)
+        ZStack {
+            color.ignoresSafeArea()
+            VStack {
+                HStack {
+                    Text(recipe.mainInformation.description)
+                        .font(.subheadline)
+                        .padding()
+                    Spacer()
+                }
+                List {
+                    Section(header: Text("Ingredients")) {
+                        if recipe.ingredients.isEmpty {
+                            Text("No Ingredients")
+                                .padding()
+                        } else {
+                            ForEach(recipe.ingredients) { ingredient in
+                                Text(ingredient.description)
+                            }
+                        }
+                    }
+                    Section(header: Text("Directions")) {
+                        if recipe.directions.isEmpty {
+                            Text("No Directions")
+                                .padding()
+                        } else {
+                            ForEach(recipe.directions.indices, id: \.self) { index in
+                                Text("\(index + 1). ").bold() + Text(recipe.directions[index].description)
+                            }
                         }
                     }
                 }
-                Section(header: Text("Directions")) {
-                    if recipe.directions.isEmpty {
-                        Text("No Directions")
-                            .padding()
-                    } else {
-                        ForEach(Array(recipe.directions.enumerated()), id: \.1) { index, direction in
-                            Text("\(index + 1). ").bold() + Text(direction.description)
-                        }
+            }
+            .navigationTitle(recipe.mainInformation.name)
+            .toolbar(content: {
+                ToolbarItem {
+                    Button("Edit") {
+                        isPresenting = true
                     }
                 }
-            }
-        }
-        .navigationTitle(recipe.name)
-        .toolbar(content: {
-            ToolbarItem {
-                Button("Edit") {
-                    isPresenting = true
-                }
-            }
-        })
-        .sheet(isPresented: $isPresenting) {
-            NavigationView {
-                ModifyRecipeView(recipe: $recipe, style: .edit)
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Save") {
-                            isPresenting = false
+                // https://stackoverflow.com/questions/64405106/toolbar-is-deleting-my-back-button-in-the-navigationview
+                ToolbarItem(placement: .navigationBarLeading) { Text("") }
+            })
+            .sheet(isPresented: $isPresenting) {
+                NavigationView {
+                    ModifyRecipeView(recipe: $recipe, style: .edit)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Save") {
+                                isPresenting = false
+                            }
                         }
                     }
                 }
@@ -66,8 +72,9 @@ struct RecipeDetailView: View {
 }
 
 struct RecipeDetailView_Previews: PreviewProvider {
+    @State static var recipe = Recipe.emptyRecipe
     static var previews: some View {
-        Circle()
+        RecipeDetailView(recipe: $recipe)
     }
 }
 

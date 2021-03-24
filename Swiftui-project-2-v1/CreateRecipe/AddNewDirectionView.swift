@@ -13,41 +13,63 @@ struct AddNewDirectionView: AddNewElementView {
     
     typealias Element = Direction
     
-    let onCreate: (Direction) -> Void
-
-    init(onCreate: @escaping (Direction) -> Void) {
-        self.onCreate = onCreate
+    
+    let viewStyle: ViewStyle<Direction>
+    @Binding var direction: Direction
+    
+    init(element: Binding<Direction>, viewStyle: ViewStyle<Direction> = .edit) {
+        self.viewStyle = viewStyle
+        self._direction = element
     }
     
     // MARK: - Environment and State
     
     @Environment(\.presentationMode) private var mode
-    
+    @AppStorage("color") var color: Color = .green
+
     @State private var step = "Set the oven to 300℉"
     @State private var isRequired = true
     @State private var userDidTapOnText = false
 
     var body: some View {
-        Form {
-            TextEditor(text: $step)
-                .padding(20)
-                .foregroundColor(userDidTapOnText ? .black : .gray)
-                .onTapGesture { userDidTapOnText = true }
-            Toggle("Required", isOn: $isRequired)
-            HStack {
-                Spacer()
-                Button("Add Step") {
-                    onCreate(Direction(step))
-                    mode.wrappedValue.dismiss()
-                }
-                Spacer()
+        ZStack {
+            color.ignoresSafeArea()
+            Form {
+                TextEditor(text: $step)
+                    .padding(20)
+                    .foregroundColor(userDidTapOnText ? .black : .gray)
+                    .onTapGesture { userDidTapOnText = true }
+                Toggle("Required", isOn: $isRequired)
+                SaveButton(element: $direction, viewStyle: viewStyle)
             }
         }
     }
 }
 
+struct SaveButton<Element>: View {
+    @Environment(\.presentationMode) private var mode
+    @Binding var element: Element
+    let viewStyle: ViewStyle<Element>
+    
+    var body: some View {
+        switch viewStyle {
+        case let .create(onCreate):
+            HStack {
+                Spacer()
+                Button("Save") {
+                    onCreate(element)
+                    mode.wrappedValue.dismiss()
+                }
+                Spacer()
+            }
+        case .edit: EmptyView()
+        }
+    }
+}
+
 struct AddNewDirectionView_Previews: PreviewProvider {
+    @State static var direction = Direction("Bake")
     static var previews: some View {
-        AddNewDirectionView { _ in return }
+        AddNewDirectionView(element: $direction, viewStyle: .edit)
     }
 }

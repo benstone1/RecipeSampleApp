@@ -11,34 +11,38 @@ struct RecipeView: View {
     @Binding var recipe: Recipe
     
     var body: some View {
-        NavigationLink(recipe.name, destination: RecipeDetailView(recipe: $recipe))
+        NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: $recipe))
     }
 }
 
 struct RecipesList: View {
-    @AppStorage("recipes") var recipes: [Recipe] = Recipe.allRecipes
+    @AppStorage("color") var color: Color = .green
+    @Binding var recipes: [Recipe]
     @State var isPresenting = false
     @State var newRecipe = Recipe.emptyRecipe
+    let category: MainInformation.Category
     
     var body: some View {
-        NavigationView {
-            VStack {
-                List(recipes) { recipe in
-                    let recipeIndex = recipes.firstIndex(where: { $0.id == recipe.id })!
-                    RecipeView(recipe: $recipes[recipeIndex])
-                }
+        VStack {
+            List(recipes.filter { $0.mainInformation.category == category }) { recipe in
+                let index = recipes.firstIndex { recipe.id == $0.id }!
+                RecipeView(recipe: $recipes[index])
             }
-            .navigationBarTitle("Recipes")
-            .toolbar(content: {
+            .listRowBackground(color)
+        }
+        .navigationBarTitle("Recipes")
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     isPresenting = true
                 }, label: {
                     Image(systemName: "plus")
                 })
-            })
-            .sheet(isPresented: $isPresenting) {
-                NavigationView {
-                    ModifyRecipeView(recipe: $newRecipe, style: .create)
+            }
+        })
+        .sheet(isPresented: $isPresenting) {
+            NavigationView {
+                ModifyRecipeView(recipe: $newRecipe, style: .create)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Dismiss") {
@@ -52,14 +56,14 @@ struct RecipesList: View {
                             }
                         }
                     }
-                }
             }
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    @State static var recipes = Recipe.allRecipes
     static var previews: some View {
-        RecipesList()
+        RecipesList(recipes: $recipes, category: .dessert)
     }
 }
