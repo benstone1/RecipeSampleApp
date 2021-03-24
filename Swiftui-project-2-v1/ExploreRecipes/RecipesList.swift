@@ -16,6 +16,7 @@ struct RecipeView: View {
 }
 
 struct RecipesList: View {
+    @AppStorage("color") var color: Color = .green
     @Binding var recipes: [Recipe]
     @State var isPresenting = false
     @State var newRecipe = Recipe.emptyRecipe
@@ -27,6 +28,7 @@ struct RecipesList: View {
                 let index = recipes.firstIndex { recipe.id == $0.id }!
                 RecipeView(recipe: $recipes[index])
             }
+            .listRowBackground(color)
         }
         .navigationBarTitle("Recipes")
         .toolbar(content: {

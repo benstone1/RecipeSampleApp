@@ -25,19 +25,23 @@ struct AddNewDirectionView: AddNewElementView {
     // MARK: - Environment and State
     
     @Environment(\.presentationMode) private var mode
-    
+    @AppStorage("color") var color: Color = .green
+
     @State private var step = "Set the oven to 300℉"
     @State private var isRequired = true
     @State private var userDidTapOnText = false
 
     var body: some View {
-        Form {
-            TextEditor(text: $step)
-                .padding(20)
-                .foregroundColor(userDidTapOnText ? .black : .gray)
-                .onTapGesture { userDidTapOnText = true }
-            Toggle("Required", isOn: $isRequired)
-            SaveButton(element: $direction, viewStyle: viewStyle)
+        ZStack {
+            color.ignoresSafeArea()
+            Form {
+                TextEditor(text: $step)
+                    .padding(20)
+                    .foregroundColor(userDidTapOnText ? .black : .gray)
+                    .onTapGesture { userDidTapOnText = true }
+                Toggle("Required", isOn: $isRequired)
+                SaveButton(element: $direction, viewStyle: viewStyle)
+            }
         }
     }
 }

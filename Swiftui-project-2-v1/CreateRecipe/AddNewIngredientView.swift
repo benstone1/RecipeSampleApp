@@ -23,6 +23,7 @@ struct AddNewIngredientView: AddNewElementView {
         
     let viewStyle: ViewStyle<Ingredient>
     @Binding var ingredient: Ingredient
+    @AppStorage("color") var color: Color = .green
         
     init(element: Binding<Ingredient>, viewStyle: ViewStyle<Ingredient> = .edit) {
         self.viewStyle = viewStyle
@@ -32,23 +33,26 @@ struct AddNewIngredientView: AddNewElementView {
     // MARK: - Environment and State
         
     var body: some View {
-        Form {
-            TextField("Apple", text: $ingredient.name)
-            Stepper(value: $ingredient.quantity, in: 0...100, step: 0.5) {
-                HStack {
-                    Text("Quantity:")
-                    TextField("Quantity", value: $ingredient.quantity, formatter: NumberFormatter.decimal)
-                        .keyboardType(.numbersAndPunctuation)
+        ZStack {
+            color.ignoresSafeArea()
+            Form {
+                TextField("Apple", text: $ingredient.name)
+                Stepper(value: $ingredient.quantity, in: 0...100, step: 0.5) {
+                    HStack {
+                        Text("Quantity:")
+                        TextField("Quantity", value: $ingredient.quantity, formatter: NumberFormatter.decimal)
+                            .keyboardType(.numbersAndPunctuation)
+                    }
                 }
-            }
-            Picker("Unit", selection: $ingredient.unit) {
-                ForEach(Ingredient.Unit.allCases) { unit in
-                    Text(unit.rawValue)
+                Picker("Unit", selection: $ingredient.unit) {
+                    ForEach(Ingredient.Unit.allCases) { unit in
+                        Text(unit.rawValue)
+                    }
                 }
+                SaveButton(element: $ingredient, viewStyle: viewStyle)
             }
-            SaveButton(element: $ingredient, viewStyle: viewStyle)
+            .navigationBarTitle("Add Ingredient")
         }
-        .navigationBarTitle("Add Ingredient")
     }
 }
 

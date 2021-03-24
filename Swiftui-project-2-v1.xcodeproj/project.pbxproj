@@ -107,8 +107,8 @@
 			children = (
 				F2C005DE25F6C4E10025162A /* Swiftui_project_2_v1App.swift */,
 				F22994F925FFC2250037B97C /* MainTabView.swift */,
-				F276773B2604FDDC008CDD4A /* Models */,
 				F27677372604FAD8008CDD4A /* SettingsView.swift */,
+				F276773B2604FDDC008CDD4A /* Models */,
 				F2B15F132601507900F84A84 /* ExploreRecipes */,
 				F2B15F112601505D00F84A84 /* CreateRecipe */,
 				F2C005E225F6C4E20025162A /* Assets.xcassets */,

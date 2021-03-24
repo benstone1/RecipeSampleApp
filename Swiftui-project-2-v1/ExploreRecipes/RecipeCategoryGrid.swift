@@ -9,25 +9,30 @@ import SwiftUI
 
 struct RecipeCategoryGrid: View {
     @AppStorage("recipes") var recipes: [Recipe] = Recipe.allRecipes
+    @AppStorage("color") var color: Color = .green
+    
     var body: some View {
         let columns = [
             GridItem(),
             GridItem(),
         ]
         NavigationView {
-            ScrollView {
-                LazyVGrid(columns: columns) {
-                    ForEach(MainInformation.Category.allCases) { category in
-                        NavigationLink(
-                            destination: RecipesList(recipes: $recipes, category: category),
-                            label: {
-                                CategoryView(category: category)
-                            })
-                            .padding()
+            ZStack {
+                color.ignoresSafeArea()
+                ScrollView {
+                    LazyVGrid(columns: columns) {
+                        ForEach(MainInformation.Category.allCases) { category in
+                            NavigationLink(
+                                destination: RecipesList(recipes: $recipes, category: category),
+                                label: {
+                                    CategoryView(category: category)
+                                })
+                                .padding()
+                        }
                     }
+                    .navigationTitle("Categories")
                 }
             }
-            .navigationTitle("Categories")
         }
     }
 }

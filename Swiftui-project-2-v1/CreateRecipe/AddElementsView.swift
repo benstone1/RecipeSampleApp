@@ -23,39 +23,45 @@ protocol EmptyInitializable {
 }
 
 struct AddElementsView<Element: Identifiable & CustomStringConvertible & EmptyInitializable, DestinationView: AddNewElementView>: View where Element == DestinationView.Element {
+    @AppStorage("color") var color: Color = .green
     @Binding var elements: [Element]
     @State var newElement = Element()
     
     private var elementName: String { String(describing: Element.self).lowercased() }
     
     var body: some View {
-        VStack {
-            let addElementView = DestinationView(element: $newElement, viewStyle: .create({ newElement in
-                elements.append(newElement)
-                self.newElement = Element()
-                print("Created the element")
-            }))
-            if elements.isEmpty {
-                Spacer()
-                NavigationLink("Add the first \(elementName)", destination: addElementView)
-                Spacer()
-            } else {
-                HStack {
+        ZStack {
+            color.ignoresSafeArea()
+            VStack {
+                let addElementView = DestinationView(element: $newElement, viewStyle: .create({ newElement in
+                    elements.append(newElement)
+                    self.newElement = Element()
+                }))
+                if elements.isEmpty {
                     Spacer()
-                    EditButton()
-                        .padding()
-                }
-                List {
-                    ForEach(elements.indices, id: \.self) { index in
-                        let element = elements[index]
-                        NavigationLink(element.description, destination: DestinationView(element: $elements[index], viewStyle: .edit))
+                    NavigationLink("Add the first \(elementName)", destination: addElementView)
+                    Spacer()
+                } else {
+                    HStack {
+                        Text(elementName.capitalized + "s")
+                            .font(.title)
+                            .padding()
+                        Spacer()
+                        EditButton()
+                            .padding()
                     }
-                    .onDelete { elements.remove(atOffsets: $0) }
-                    .onMove { indices, newOffet in elements.move(fromOffsets: indices, toOffset: newOffet) }
-                    NavigationLink("Add another \(elementName)",
-                                   destination: addElementView)
-                        .buttonStyle(PlainButtonStyle())
-                        .foregroundColor(.blue)
+                    List {
+                        ForEach(elements.indices, id: \.self) { index in
+                            let element = elements[index]
+                            NavigationLink(element.description, destination: DestinationView(element: $elements[index], viewStyle: .edit))
+                        }
+                        .onDelete { elements.remove(atOffsets: $0) }
+                        .onMove { indices, newOffet in elements.move(fromOffsets: indices, toOffset: newOffet) }
+                        NavigationLink("Add another \(elementName)",
+                                       destination: addElementView)
+                            .buttonStyle(PlainButtonStyle())
+                            .foregroundColor(.blue)
+                    }
                 }
             }
         }

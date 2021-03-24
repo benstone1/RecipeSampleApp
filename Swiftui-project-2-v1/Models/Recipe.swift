@@ -28,12 +28,12 @@ struct MainInformation: Codable, Identifiable {
     var category: Category
     
     enum Category: String, CaseIterable, Identifiable, Codable {
-        var id: String { rawValue }
+        var id: Category { self }
         
-        case breakfast
-        case lunch
-        case dinner
-        case dessert
+        case breakfast = "Breakfast"
+        case lunch = "Lunch"
+        case dinner = "Dinner"
+        case dessert = "Dessert"
     }
 }
 

@@ -8,32 +8,35 @@
 import SwiftUI
 
 struct ModifyRecipeView: View {
-
+    @AppStorage("color") var color: Color = .green
     @State var selection = Selection.main
     @Binding var recipe: Recipe
     
     let style: ViewStyle
     
     var body: some View {
-        VStack {
-            Picker(selection: $selection, label: Text("Picker"), content: {
-                Text("Main Info").tag(Selection.main)
-                Text("Ingredients").tag(Selection.ingredients)
-                Text("Directions").tag(Selection.directions)
-            })
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            switch selection {
-            case .main:
-                RecipeMainInfoView(mainInformation: $recipe.mainInformation)
-            case .ingredients:
-                AddElementsView<Ingredient, AddNewIngredientView>(elements: $recipe.ingredients)
-            case .directions:
-                AddElementsView<Direction, AddNewDirectionView>(elements: $recipe.directions)
+        ZStack {
+            color.ignoresSafeArea()
+            VStack {
+                Picker(selection: $selection, label: Text("Picker"), content: {
+                    Text("Main Info").tag(Selection.main)
+                    Text("Ingredients").tag(Selection.ingredients)
+                    Text("Directions").tag(Selection.directions)
+                })
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+                switch selection {
+                case .main:
+                    RecipeMainInfoView(mainInformation: $recipe.mainInformation)
+                case .ingredients:
+                    AddElementsView<Ingredient, AddNewIngredientView>(elements: $recipe.ingredients)
+                case .directions:
+                    AddElementsView<Direction, AddNewDirectionView>(elements: $recipe.directions)
+                }
+                Spacer()
             }
-            Spacer()
+            .navigationTitle(style.navigationTitle)
         }
-        .navigationTitle(style.navigationTitle)
     }
     
     enum Selection {
