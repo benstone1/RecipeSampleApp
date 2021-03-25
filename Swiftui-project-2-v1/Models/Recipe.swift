@@ -14,8 +14,7 @@ struct Recipe: Identifiable, Codable {
     var directions: [Direction]
     
     
-    static let emptyRecipe = Recipe(mainInformation:
-                                        MainInformation(name: "", description: "", category: .breakfast),
+    static let emptyRecipe = Recipe(mainInformation: MainInformation(name: "", description: "", category: .breakfast),
                                     ingredients: [],
                                     directions: [])
 }
