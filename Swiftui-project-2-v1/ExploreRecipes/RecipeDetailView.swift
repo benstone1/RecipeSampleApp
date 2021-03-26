@@ -54,6 +54,7 @@ struct RecipeDetailView: View {
                             recipe.isFavorite.toggle()
                         }) {
                             Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
+                                .font(.title)
                         }
                         Button("Edit") {
                             isPresenting = true

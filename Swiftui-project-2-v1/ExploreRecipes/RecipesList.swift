@@ -17,7 +17,7 @@ struct RecipesList: View {
         case category(MainInformation.Category)
         case favorite
     }
-
+    
     let viewStyle: ViewStyle
     
     var filteredRecipes: [Recipe] {
@@ -28,10 +28,12 @@ struct RecipesList: View {
     }
     
     var body: some View {
-        VStack {
-            List(filteredRecipes) { recipe in
-                NavigationLink(recipe.mainInformation.name,
-                               destination: RecipeDetailView(recipe: binding(for: recipe)))
+        List {
+            switch viewStyle {
+            case .favorite:
+                FavoritesList(recipes: $recipes)
+            case let .category(category):
+                CategoriesList(recipes: $recipes, category: category)
             }
         }
         .navigationBarTitle(navigationTitleStr)
@@ -60,6 +62,46 @@ struct RecipesList: View {
         switch viewStyle {
         case let .category(category): return "\(category.rawValue) Recipes"
         case .favorite: return "Favorite Recipes"
+        }
+    }
+}
+
+struct RecipeView: View {
+    @Binding var recipe: Recipe
+    
+    var body: some View {
+        NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: $recipe))
+    }
+}
+
+struct CategoriesList: View {
+    @Binding var recipes: [Recipe]
+    let category: MainInformation.Category
+    let onlyFavorites: Bool
+    
+    init(recipes: Binding<[Recipe]>, category: MainInformation.Category, onlyFavorites: Bool = false) {
+        self._recipes = recipes
+        self.category = category
+        self.onlyFavorites = onlyFavorites
+    }
+    
+    var body: some View {
+        let filteredRecipes = recipes.filter { $0.mainInformation.category == category && (!onlyFavorites || $0.isFavorite) }        
+        ForEach(filteredRecipes, id: \.id) { recipe in
+            let index = recipes.firstIndex(of: recipe)!
+            RecipeView(recipe: $recipes[index])
+        }
+    }
+}
+
+struct FavoritesList: View {
+    @Binding var recipes: [Recipe]
+    
+    var body: some View {
+        ForEach(MainInformation.Category.allCases, id: \.self) { category in
+            Section(header: Text(category.rawValue)) {
+                CategoriesList(recipes: $recipes, category: category, onlyFavorites: true)
+            }
         }
     }
 }
