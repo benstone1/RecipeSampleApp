@@ -12,6 +12,7 @@ struct Recipe: Identifiable, Codable {
     var mainInformation: MainInformation
     var ingredients: [Ingredient]
     var directions: [Direction]
+    var isFavorite = false
     
     
     static let emptyRecipe = Recipe(mainInformation: MainInformation(name: "", description: "", category: .breakfast),
