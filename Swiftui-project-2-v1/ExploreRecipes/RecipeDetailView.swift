@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     @AppStorage("color") var color: Color = .green
+    @AppStorage("hideOptionalSteps") var hideOptionalSteps: Bool = false
     @State var isPresenting = false
     @Binding var recipe: Recipe
     
@@ -39,8 +40,10 @@ struct RecipeDetailView: View {
                             Text("No Directions")
                                 .padding()
                         } else {
-                            ForEach(recipe.directions.indices, id: \.self) { index in
-                                Text("\(index + 1). ").bold() + Text(recipe.directions[index].description)
+                            let directions = hideOptionalSteps ? recipe.directions.filter { $0.isRequired } : recipe.directions
+                            ForEach(directions.indices, id: \.self) { index in
+                                let direction = recipe.directions[index]
+                                Text("\(index + 1). ").bold() + Text("\(direction.isRequired ? "" : "Optional: ")\(direction.description)")
                             }
                         }
                     }

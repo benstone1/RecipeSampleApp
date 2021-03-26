@@ -27,7 +27,6 @@ struct AddNewDirectionView: AddNewElementView {
     @Environment(\.presentationMode) private var mode
     @AppStorage("color") var color: Color = .green
 
-    @State private var step = "Set the oven to 300℉"
     @State private var isRequired = true
     @State private var userDidTapOnText = false
 
@@ -35,11 +34,9 @@ struct AddNewDirectionView: AddNewElementView {
         ZStack {
             color.ignoresSafeArea()
             Form {
-                TextEditor(text: $step)
+                TextEditor(text: $direction.description)
                     .padding(20)
-                    .foregroundColor(userDidTapOnText ? .black : .gray)
-                    .onTapGesture { userDidTapOnText = true }
-                Toggle("Required", isOn: $isRequired)
+                Toggle("Required", isOn: $direction.isRequired)
                 SaveButton(element: $direction, viewStyle: viewStyle)
             }
         }
