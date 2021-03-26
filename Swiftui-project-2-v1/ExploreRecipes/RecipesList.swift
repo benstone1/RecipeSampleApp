@@ -28,7 +28,6 @@ struct RecipesList: View {
                 let index = recipes.firstIndex { recipe.id == $0.id }!
                 RecipeView(recipe: $recipes[index])
             }
-            .listRowBackground(color)
         }
         .navigationBarTitle("Recipes")
         .toolbar(content: {
