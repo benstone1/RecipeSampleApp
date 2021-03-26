@@ -29,3 +29,9 @@ extension Array: RawRepresentable where Element: Codable {
         }
     }
 }
+
+extension Array where Element: Identifiable {
+    func firstIndex(of element: Element) -> Int? {
+        return firstIndex(where: { $0.id == element.id })
+    }
+}

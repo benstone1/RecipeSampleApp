@@ -22,6 +22,7 @@ struct RecipeDetailView: View {
                         .padding()
                     Spacer()
                 }
+                .padding()
                 List {
                     Section(header: Text("Ingredients")) {
                         if recipe.ingredients.isEmpty {
@@ -48,8 +49,16 @@ struct RecipeDetailView: View {
             .navigationTitle(recipe.mainInformation.name)
             .toolbar(content: {
                 ToolbarItem {
-                    Button("Edit") {
-                        isPresenting = true
+                    HStack {
+                        Button(action: {
+                            recipe.isFavorite.toggle()
+                        }) {
+                            Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
+                                .font(.title)
+                        }
+                        Button("Edit") {
+                            isPresenting = true
+                        }
                     }
                 }
                 // https://stackoverflow.com/questions/64405106/toolbar-is-deleting-my-back-button-in-the-navigationview
