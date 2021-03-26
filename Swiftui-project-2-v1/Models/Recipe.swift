@@ -47,8 +47,8 @@ struct Direction: Identifiable, CustomStringConvertible, Codable, EmptyInitializ
         self.description = ""
         self.isRequired = true
     }
-    let description: String
-    let isRequired: Bool
+    var description: String
+    var isRequired: Bool
 }
 
 struct Ingredient: Identifiable, CustomStringConvertible, Codable, EmptyInitializable {
