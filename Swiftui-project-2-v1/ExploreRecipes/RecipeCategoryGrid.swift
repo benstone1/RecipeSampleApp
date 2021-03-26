@@ -23,7 +23,7 @@ struct RecipeCategoryGrid: View {
                     LazyVGrid(columns: columns) {
                         ForEach(MainInformation.Category.allCases) { category in
                             NavigationLink(
-                                destination: RecipesList(recipes: $recipes, category: category),
+                                destination: RecipesList(recipes: $recipes, viewStyle: .category(category)),
                                 label: {
                                     CategoryView(category: category)
                                 })

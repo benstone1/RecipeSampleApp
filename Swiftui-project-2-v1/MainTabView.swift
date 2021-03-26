@@ -15,8 +15,8 @@ struct MainTabView: View {
             RecipeCategoryGrid()
                 .tabItem { Label("Recipes", systemImage: "list.dash") }
             NavigationView {
-                RecipesList(viewModel: RecipesListViewModel(viewStyle: .favorites))
-            }.tabItem { Label("Favorites", systemImage: "heart.fill") }        
+                RecipesList(recipes: $recipes, viewStyle: .favorite)
+            }.tabItem { Label("Favorites", systemImage: "heart.fill") }
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gear") }
         }
