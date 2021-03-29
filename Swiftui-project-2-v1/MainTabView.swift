@@ -10,8 +10,6 @@ import SwiftUI
 struct MainTabView: View {
     @ObservedObject private var recipeData = RecipeData()
     
-    @Environment(\.scenePhase) private var phase
-
     var body: some View {
         TabView {
             RecipeCategoryGrid()
@@ -26,17 +24,6 @@ struct MainTabView: View {
         .environmentObject(recipeData)
         .onAppear {
             recipeData.loadRecipes()
-        }
-        .onChange(of: phase) { phase in
-            switch phase {
-            case .inactive, .background:
-                print("Going inactive / background")
-                recipeData.saveRecipes()
-            case .active:
-                print("going active")
-            @unknown default:
-                break
-            }
         }
     }
 }

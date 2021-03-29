@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecipeCategoryGrid: View {
-    @AppStorage("color") var color: Color = .green
+    @AppStorage("color") var color: Color = .white
     
     var body: some View {
         let columns = [

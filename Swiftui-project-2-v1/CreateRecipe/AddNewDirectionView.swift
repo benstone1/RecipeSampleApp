@@ -65,8 +65,10 @@ struct SaveButton<Element>: View {
 }
 
 struct AddNewDirectionView_Previews: PreviewProvider {
-    @State static var direction = Direction("Bake")
+    @State static var recipe = Recipe.allRecipes[0]
+    
     static var previews: some View {
-        AddNewDirectionView(element: $direction, viewStyle: .edit)
+        AddNewDirectionView(element: $recipe.directions[0], viewStyle: .create({ _ in }))
+        AddNewDirectionView(element: $recipe.directions[0], viewStyle: .edit)
     }
 }

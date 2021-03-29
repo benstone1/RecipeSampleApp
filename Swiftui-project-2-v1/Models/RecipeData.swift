@@ -10,8 +10,20 @@ import SwiftUI
 class RecipeData: ObservableObject {
     @Published var recipes = [Recipe]() {
         didSet {
-            saveRecipes()  // TODO: How bad is this?  Seems to work...
+            throttleSave()
         }
+    }
+    
+    private var saveTask: DispatchWorkItem?
+
+    private func throttleSave() {
+        // https://stackoverflow.com/questions/42444310/live-search-throttle-in-swift-3
+        saveTask?.cancel()
+        let task = DispatchWorkItem { [weak self] in
+            self?.saveRecipes()
+        }
+        saveTask = task
+        DispatchQueue(label: "background").asyncAfter(deadline: DispatchTime.now() + 2, execute: task)
     }
     
     func loadRecipes() {

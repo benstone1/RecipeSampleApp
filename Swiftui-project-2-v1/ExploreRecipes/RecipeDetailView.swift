@@ -85,7 +85,8 @@ struct RecipeDetailView: View {
 }
 
 struct RecipeDetailView_Previews: PreviewProvider {
-    @State static var recipe = Recipe.emptyRecipe
+    @State static var recipe = Recipe.allRecipes[0]
+    
     static var previews: some View {
         RecipeDetailView(recipe: $recipe)
     }

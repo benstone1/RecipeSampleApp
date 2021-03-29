@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ModifyRecipeView: View {
-    @AppStorage("color") var color: Color = .green
+    @AppStorage("color") var color: Color = .white
     @State var selection = Selection.main
     @Binding var recipe: Recipe
     

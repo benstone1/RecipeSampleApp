@@ -57,9 +57,9 @@ struct AddNewIngredientView: AddNewElementView {
 }
 
 struct AddNewIngredientView_Previews: PreviewProvider {
-    @State static var ingredient = Ingredient()
+    @State static var recipe = Recipe.allRecipes[0]
     
     static var previews: some View {
-        AddNewIngredientView(element: $ingredient, viewStyle: .edit)
+        AddNewIngredientView(element: $recipe.ingredients[0], viewStyle: .edit)
     }
 }
