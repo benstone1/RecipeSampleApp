@@ -8,7 +8,11 @@
 import SwiftUI
 
 class RecipeData: ObservableObject {
-    @Published var recipes = [Recipe]()
+    @Published var recipes = [Recipe]() {
+        didSet {
+            saveRecipes()  // TODO: How bad is this?  Seems to work...
+        }
+    }
     
     func loadRecipes() {
         guard let data = try? Data(contentsOf: recipesFileURL) else {
