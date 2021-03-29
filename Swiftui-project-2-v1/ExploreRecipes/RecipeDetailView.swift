@@ -55,6 +55,7 @@ struct RecipeDetailView: View {
                     HStack {
                         Button(action: {
                             recipe.isFavorite.toggle()
+                            recipe.mainInformation.name = recipe.mainInformation.name + "!"
                         }) {
                             Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
                                 .font(.title)

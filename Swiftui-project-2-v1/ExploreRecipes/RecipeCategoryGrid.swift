@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RecipeCategoryGrid: View {
-    @AppStorage("recipes") var recipes: [Recipe] = Recipe.allRecipes
     @AppStorage("color") var color: Color = .green
     
     var body: some View {
@@ -23,7 +22,7 @@ struct RecipeCategoryGrid: View {
                     LazyVGrid(columns: columns) {
                         ForEach(MainInformation.Category.allCases) { category in
                             NavigationLink(
-                                destination: RecipesList(recipes: $recipes, viewStyle: .category(category)),
+                                destination: RecipesList(viewStyle: .category(category)),
                                 label: {
                                     CategoryView(category: category)
                                 })
@@ -54,6 +53,7 @@ struct CategoryView: View {
 }
 
 struct RecipeCategoryGrid_Previews: PreviewProvider {
+    @State static var recipes = Recipe.allRecipes
     static var previews: some View {
         RecipeCategoryGrid()
     }

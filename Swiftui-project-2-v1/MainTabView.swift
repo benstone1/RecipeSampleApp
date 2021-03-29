@@ -8,17 +8,35 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @AppStorage("recipes") var recipes: [Recipe] = Recipe.allRecipes
+    @ObservedObject private var recipeData = RecipeData()
+    
+    @Environment(\.scenePhase) private var phase
 
     var body: some View {
         TabView {
             RecipeCategoryGrid()
                 .tabItem { Label("Recipes", systemImage: "list.dash") }
             NavigationView {
-                RecipesList(recipes: $recipes, viewStyle: .favorite)
-            }.tabItem { Label("Favorites", systemImage: "heart.fill") }
+                RecipesList(viewStyle: .favorite)
+            }
+            .tabItem { Label("Favorites", systemImage: "heart.fill") }
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gear") }
+        }
+        .environmentObject(recipeData)
+        .onAppear {
+            recipeData.loadRecipes()
+        }
+        .onChange(of: phase) { phase in
+            switch phase {
+            case .inactive, .background:
+                print("Going inactive / background")
+                recipeData.saveRecipes()
+            case .active:
+                print("going active")
+            @unknown default:
+                break
+            }
         }
     }
 }

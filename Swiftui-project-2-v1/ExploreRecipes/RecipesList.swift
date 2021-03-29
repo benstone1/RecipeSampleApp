@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RecipesList: View {
     @AppStorage("color") var color: Color = .green
-    @Binding var recipes: [Recipe]
+    @EnvironmentObject var recipeData: RecipeData
+
     @State var isPresenting = false
     @State var newRecipe = Recipe.emptyRecipe
     
@@ -22,8 +23,8 @@ struct RecipesList: View {
     
     var filteredRecipes: [Recipe] {
         switch viewStyle {
-        case let .category(category): return recipes.filter { $0.mainInformation.category == category }
-        case .favorite: return recipes.filter { $0.isFavorite == true }
+        case let .category(category): return recipeData.recipes.filter { $0.mainInformation.category == category }
+        case .favorite: return recipeData.recipes.filter { $0.isFavorite == true }
         }
     }
     
@@ -31,9 +32,9 @@ struct RecipesList: View {
         List {
             switch viewStyle {
             case .favorite:
-                FavoritesList(recipes: $recipes)
+                FavoritesList()
             case let .category(category):
-                CategoriesList(recipes: $recipes, category: category)
+                CategoriesList(category: category)
             }
         }
         .navigationBarTitle(navigationTitleStr)
@@ -48,14 +49,14 @@ struct RecipesList: View {
         })
         .sheet(isPresented: $isPresenting) {
             AddRecipeSheetView(isPresenting: $isPresenting, recipe: $newRecipe) { newRecipe in
-                recipes.append(newRecipe)
+                recipeData.recipes.append(newRecipe)
             }
         }
     }
     
     private func binding(for recipe: Recipe) -> Binding<Recipe> {
-        let index = recipes.firstIndex { recipe.id == $0.id }!
-        return $recipes[index]
+        let index = recipeData.recipes.firstIndex { recipe.id == $0.id }!
+        return $recipeData.recipes[index]
     }
     
     private var navigationTitleStr: String {
@@ -75,32 +76,30 @@ struct RecipeView: View {
 }
 
 struct CategoriesList: View {
-    @Binding var recipes: [Recipe]
+    @EnvironmentObject var recipeData: RecipeData
+    
     let category: MainInformation.Category
     let onlyFavorites: Bool
     
-    init(recipes: Binding<[Recipe]>, category: MainInformation.Category, onlyFavorites: Bool = false) {
-        self._recipes = recipes
+    init(category: MainInformation.Category, onlyFavorites: Bool = false) {
         self.category = category
         self.onlyFavorites = onlyFavorites
     }
     
     var body: some View {
-        let filteredRecipes = recipes.filter { $0.mainInformation.category == category && (!onlyFavorites || $0.isFavorite) }        
+        let filteredRecipes = recipeData.recipes.filter { $0.mainInformation.category == category && (!onlyFavorites || $0.isFavorite) }
         ForEach(filteredRecipes, id: \.id) { recipe in
-            let index = recipes.firstIndex(of: recipe)!
-            RecipeView(recipe: $recipes[index])
+            let index = recipeData.recipes.firstIndex(of: recipe)!
+            RecipeView(recipe: $recipeData.recipes[index])
         }
     }
 }
 
 struct FavoritesList: View {
-    @Binding var recipes: [Recipe]
-    
     var body: some View {
         ForEach(MainInformation.Category.allCases, id: \.self) { category in
             Section(header: Text(category.rawValue)) {
-                CategoriesList(recipes: $recipes, category: category, onlyFavorites: true)
+                CategoriesList(category: category, onlyFavorites: true)
             }
         }
     }
@@ -134,6 +133,6 @@ struct AddRecipeSheetView: View {
 struct ContentView_Previews: PreviewProvider {
     @State static var recipes = Recipe.allRecipes
     static var previews: some View {
-        RecipesList(recipes: $recipes, viewStyle: .favorite)
+        RecipesList(viewStyle: .favorite)
     }
 }

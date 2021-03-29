@@ -2,7 +2,7 @@
 //  RecipeData.swift
 //  Swiftui-project-2-v1
 //
-//  Created by Ben Stone on 3/19/21.
+//  Created by Ben Stone on 3/29/21.
 //
 
 import Foundation
@@ -10,35 +10,42 @@ import Foundation
 class RecipeData: ObservableObject {
     @Published var recipes = [Recipe]()
     
-    private let filename = "recipes.plist"
-    
-    private var internalRecipesURL: URL {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentsDirectory.appendingPathComponent(filename)
-    }
-    
-    func update(_ recipe: Recipe) {
-        
-    }
-        
-    func save() {
+    func loadRecipes() {
+        guard let data = try? Data(contentsOf: recipesFileURL) else {
+            #if DEBUG
+                recipes = Recipe.allRecipes
+            #endif
+            return
+        }
         do {
-            let encodedRecipes = try PropertyListEncoder().encode(recipes)
-            try encodedRecipes.write(to: internalRecipesURL)
+            let savedRecipes = try JSONDecoder().decode([Recipe].self, from: data)
+            recipes = savedRecipes
         }
         catch {
-            print("Error saving recipes")
+            fatalError("An error occurred while loading recipes: \(error)")
         }
     }
     
-    func load() {
-        guard let data = FileManager.default.contents(atPath: internalRecipesURL.path) else { return }
+    func saveRecipes() {
         do {
-            let savedRecipes = try PropertyListDecoder().decode([Recipe].self, from: data)
-            self.recipes = savedRecipes
+            let encodedData = try JSONEncoder().encode(recipes)
+            try encodedData.write(to: recipesFileURL)
         }
         catch {
-            print("Error loading recipes")
+            fatalError("An error occurred while saving recipes: \(error)")
+        }
+    }
+    
+    private var recipesFileURL: URL {
+        do {
+            let documentsDirectory = try FileManager.default.url(for: .documentDirectory,
+                                                                 in: .userDomainMask,
+                                                                 appropriateFor: nil,
+                                                                 create: false)
+            return documentsDirectory.appendingPathComponent("recipeData")
+        }
+        catch {
+            fatalError("An error occurred while getting the url: \(error)")
         }
     }
 }
