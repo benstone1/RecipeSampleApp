@@ -5,7 +5,7 @@
 //  Created by Ben Stone on 3/29/21.
 //
 
-import Foundation
+import SwiftUI
 
 class RecipeData: ObservableObject {
     @Published var recipes = [Recipe]()

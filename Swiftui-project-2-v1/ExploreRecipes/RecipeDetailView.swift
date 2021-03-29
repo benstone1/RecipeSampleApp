@@ -12,10 +12,10 @@ struct RecipeDetailView: View {
     @AppStorage("hideOptionalSteps") var hideOptionalSteps: Bool = false
     @State var isPresenting = false
     @Binding var recipe: Recipe
+    @State var refresh = false
     
     var body: some View {
         ZStack {
-            color.ignoresSafeArea()
             VStack {
                 HStack {
                     Text(recipe.mainInformation.description)
@@ -55,7 +55,7 @@ struct RecipeDetailView: View {
                     HStack {
                         Button(action: {
                             recipe.isFavorite.toggle()
-                            recipe.mainInformation.name = recipe.mainInformation.name + "!"
+                            refresh.toggle() // TODO: Remove this hack (The UI only updates every other time when navigating to the detail from the Favorites list
                         }) {
                             Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
                                 .font(.title)

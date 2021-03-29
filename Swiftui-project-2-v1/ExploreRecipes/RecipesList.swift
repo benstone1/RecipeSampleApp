@@ -67,14 +67,6 @@ struct RecipesList: View {
     }
 }
 
-struct RecipeView: View {
-    @Binding var recipe: Recipe
-    
-    var body: some View {
-        NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: $recipe))
-    }
-}
-
 struct CategoriesList: View {
     @EnvironmentObject var recipeData: RecipeData
     
@@ -90,7 +82,7 @@ struct CategoriesList: View {
         let filteredRecipes = recipeData.recipes.filter { $0.mainInformation.category == category && (!onlyFavorites || $0.isFavorite) }
         ForEach(filteredRecipes, id: \.id) { recipe in
             let index = recipeData.recipes.firstIndex(of: recipe)!
-            RecipeView(recipe: $recipeData.recipes[index])
+            NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: $recipeData.recipes[index]))
         }
     }
 }
@@ -131,8 +123,8 @@ struct AddRecipeSheetView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    @State static var recipes = Recipe.allRecipes
     static var previews: some View {
-        RecipesList(viewStyle: .favorite)
+        RecipesList(viewStyle: .category(.dessert))
+            .environmentObject(RecipeData())
     }
 }
