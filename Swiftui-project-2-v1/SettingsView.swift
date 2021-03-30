@@ -34,15 +34,20 @@ extension Color: RawRepresentable {
 }
 
 struct SettingsView: View {
-    @AppStorage("color") var color: Color = Color.white
+    @AppStorage("color") var color: Color = .white
     @AppStorage("hideOptionalSteps") var hideOptionalSteps: Bool = false
     
     var body: some View {
         ZStack {
             color.ignoresSafeArea()
-            Form {
-                Toggle("Hide Optional Steps", isOn: $hideOptionalSteps)
-                ColorPicker("Color", selection: $color)
+            VStack {
+                Text("Settings")
+                    .font(.title)
+                    .padding()
+                Form {
+                    Toggle("Hide Optional Steps", isOn: $hideOptionalSteps)
+                    ColorPicker("Color", selection: $color)
+                }
             }
         }
     }

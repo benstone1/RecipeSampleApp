@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @AppStorage("recipes") var recipes: [Recipe] = Recipe.allRecipes
-
+    @ObservedObject private var recipeData = RecipeData()
+    
     var body: some View {
         TabView {
             RecipeCategoryGrid()
                 .tabItem { Label("Recipes", systemImage: "list.dash") }
             NavigationView {
-                RecipesList(recipes: $recipes, viewStyle: .favorite)
-            }.tabItem { Label("Favorites", systemImage: "heart.fill") }
+                RecipesList(viewStyle: .favorite)
+            }
+            .tabItem { Label("Favorites", systemImage: "heart.fill") }
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gear") }
+        }
+        .environmentObject(recipeData)
+        .onAppear {
+            recipeData.loadRecipes()
         }
     }
 }

@@ -23,7 +23,7 @@ protocol EmptyInitializable {
 }
 
 struct AddElementsView<Element: Identifiable & CustomStringConvertible & EmptyInitializable, DestinationView: AddNewElementView>: View where Element == DestinationView.Element {
-    @AppStorage("color") var color: Color = .green
+    @AppStorage("color") var color: Color = .white
     @Binding var elements: [Element]
     @State var newElement = Element()
     
@@ -69,9 +69,10 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible & EmptyIn
 }
 
 struct AddElementsView_Previews: PreviewProvider {
-    @State static var ingredients = [Ingredient]()
+    @State static var recipe = Recipe.allRecipes[0]
     
     static var previews: some View {
-        AddElementsView<Ingredient, AddNewIngredientView>(elements: $ingredients)
+        AddElementsView<Ingredient, AddNewIngredientView>(elements: .constant([]))
+        AddElementsView<Ingredient, AddNewIngredientView>(elements: $recipe.ingredients)
     }
 }

@@ -20,8 +20,12 @@ struct RecipeMainInfoView: View {
                         .padding()
                     TextField("Apple Pie", text: $mainInformation.name)
                 }
-                VStack {
-                    Text("Description")
+                ZStack(alignment: .leading) {
+                    if mainInformation.description.isEmpty {
+                        Text("Description")
+                            .foregroundColor(.gray)
+                            .padding(.leading, 5)
+                    }
                     TextEditor(text: $mainInformation.description)
                 }
                 Picker("Category", selection: $mainInformation.category) {
@@ -36,9 +40,13 @@ struct RecipeMainInfoView: View {
 }
 
 struct RecipeMainInfoView_Previews: PreviewProvider {
-    @State static var mainInformation = MainInformation(name: "Test Name", description: "Test Description", category: .breakfast)
+    @State static var mainInformation = MainInformation(name: "Test Name",
+                                                        description: "Test Description",
+                                                        category: .breakfast)
+    @State static var emptyInformation = MainInformation(name: "", description: "", category: .breakfast)
         
     static var previews: some View {
         RecipeMainInfoView(mainInformation: $mainInformation)
+        RecipeMainInfoView(mainInformation: $emptyInformation)
     }
 }
