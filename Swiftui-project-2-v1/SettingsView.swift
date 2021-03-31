@@ -46,7 +46,9 @@ struct SettingsView: View {
                     .padding()
                 Form {
                     Toggle("Hide Optional Steps", isOn: $hideOptionalSteps)
+                        .padding()
                     ColorPicker("Color", selection: $color)
+                        .padding()
                 }
             }
         }
