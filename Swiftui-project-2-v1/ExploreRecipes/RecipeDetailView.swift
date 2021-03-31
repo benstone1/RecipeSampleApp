@@ -58,7 +58,7 @@ struct RecipeDetailView: View {
                             refresh.toggle() // TODO: Remove this hack (The UI only updates every other time when navigating to the detail from the Favorites list
                         }) {
                             Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
-                                .font(.title)
+                                .imageScale(Image.Scale.large)                                
                         }
                         Button("Edit") {
                             isPresenting = true

@@ -23,7 +23,7 @@ class RecipeData: ObservableObject {
             self?.saveRecipes()
         }
         saveTask = task
-        DispatchQueue(label: "background").asyncAfter(deadline: DispatchTime.now() + 2, execute: task)
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: DispatchTime.now() + 2, execute: task)
     }
     
     func loadRecipes() {

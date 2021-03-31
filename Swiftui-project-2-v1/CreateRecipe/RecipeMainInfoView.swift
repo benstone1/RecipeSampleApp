@@ -20,14 +20,7 @@ struct RecipeMainInfoView: View {
                         .padding()
                     TextField("Apple Pie", text: $mainInformation.name)
                 }
-                ZStack(alignment: .leading) {
-                    if mainInformation.description.isEmpty {
-                        Text("Description")
-                            .foregroundColor(.gray)
-                            .padding(.leading, 5)
-                    }
-                    TextEditor(text: $mainInformation.description)
-                }
+                TextEditorWithPlaceholder(text: $mainInformation.description)
                 Picker("Category", selection: $mainInformation.category) {
                     ForEach(MainInformation.Category.allCases) { category in
                         Text(category.rawValue)
@@ -35,6 +28,22 @@ struct RecipeMainInfoView: View {
                 }
                 .padding()
             }
+        }
+    }
+}
+
+struct TextEditorWithPlaceholder: View {
+    @Binding var text: String
+    let placeholderText = "Description"
+    
+    var body: some View {
+        ZStack(alignment: .leading) {
+            if text.isEmpty {
+                Text(placeholderText)
+                    .foregroundColor(.gray)
+                    .padding(.leading, 5)
+            }
+            TextEditor(text: $text)
         }
     }
 }

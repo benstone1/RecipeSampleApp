@@ -53,12 +53,7 @@ struct RecipesList: View {
             }
         }
     }
-    
-    private func binding(for recipe: Recipe) -> Binding<Recipe> {
-        let index = recipeData.recipes.firstIndex { recipe.id == $0.id }!
-        return $recipeData.recipes[index]
-    }
-    
+        
     private var navigationTitleStr: String {
         switch viewStyle {
         case let .category(category): return "\(category.rawValue) Recipes"
@@ -71,19 +66,30 @@ struct CategoriesList: View {
     @EnvironmentObject var recipeData: RecipeData
     
     let category: MainInformation.Category
-    let onlyFavorites: Bool
+    let onlyDisplayFavorites: Bool
     
-    init(category: MainInformation.Category, onlyFavorites: Bool = false) {
+    init(category: MainInformation.Category, onlyDisplayFavorites: Bool = false) {
         self.category = category
-        self.onlyFavorites = onlyFavorites
+        self.onlyDisplayFavorites = onlyDisplayFavorites
     }
     
     var body: some View {
-        let filteredRecipes = recipeData.recipes.filter { $0.mainInformation.category == category && (!onlyFavorites || $0.isFavorite) }
         ForEach(filteredRecipes, id: \.id) { recipe in
-            let index = recipeData.recipes.firstIndex(where: { $0.id == recipe.id })!
-            NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: $recipeData.recipes[index]))
+            NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: binding(for: recipe)))
         }
+    }
+    
+    private var filteredRecipes: [Recipe] {
+        return recipeData.recipes.filter { (recipe) -> Bool in
+            let categoryMatches = recipe.mainInformation.category == category
+            let isFavoriteOrDisplayAllRecipes = !onlyDisplayFavorites || recipe.isFavorite
+            return categoryMatches && isFavoriteOrDisplayAllRecipes
+        }
+    }
+    
+    private func binding(for recipe: Recipe) -> Binding<Recipe> {
+        let index = recipeData.recipes.firstIndex { recipe.id == $0.id }!
+        return $recipeData.recipes[index]
     }
 }
 
@@ -91,7 +97,7 @@ struct FavoritesList: View {
     var body: some View {
         ForEach(MainInformation.Category.allCases, id: \.self) { category in
             Section(header: Text(category.rawValue)) {
-                CategoriesList(category: category, onlyFavorites: true)
+                CategoriesList(category: category, onlyDisplayFavorites: true)
             }
         }
     }

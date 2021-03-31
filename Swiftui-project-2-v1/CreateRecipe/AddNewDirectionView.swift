@@ -28,13 +28,12 @@ struct AddNewDirectionView: AddNewElementView {
     @AppStorage("color") var color: Color = .green
 
     @State private var isRequired = true
-    @State private var userDidTapOnText = false
 
     var body: some View {
         ZStack {
             color.ignoresSafeArea()
             Form {
-                TextEditor(text: $direction.description)
+                TextEditorWithPlaceholder(text: $direction.description)
                     .padding(20)
                 Toggle("Required", isOn: $direction.isRequired)
                 SaveButton(element: $direction, viewStyle: viewStyle)
