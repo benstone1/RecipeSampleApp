@@ -15,18 +15,13 @@ struct RecipeMainInfoView: View {
         ZStack {
             color.ignoresSafeArea()
             Form {
-                HStack {
-                    Text("Name:")
-                        .padding()
-                    TextField("Apple Pie", text: $mainInformation.name)
-                }
+                TextField("Apple Pie", text: $mainInformation.name)
                 TextEditorWithPlaceholder(text: $mainInformation.description)
                 Picker("Category", selection: $mainInformation.category) {
                     ForEach(MainInformation.Category.allCases) { category in
                         Text(category.rawValue)
                     }
                 }
-                .padding()
             }
         }
     }
@@ -41,6 +36,7 @@ struct TextEditorWithPlaceholder: View {
             if text.isEmpty {
                 Text(placeholderText)
                     .foregroundColor(.gray)
+                    .opacity(0.75)
                     .padding(.leading, 5)
             }
             TextEditor(text: $text)
