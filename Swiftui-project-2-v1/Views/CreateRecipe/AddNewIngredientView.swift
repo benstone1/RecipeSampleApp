@@ -5,14 +5,6 @@
 //  Created by Ben Stone on 3/17/21.
 //
 
-extension NumberFormatter {
-    static var decimal: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter
-    }
-}
-
 import SwiftUI
 
 struct AddNewIngredientView: AddNewElementView {
@@ -21,11 +13,11 @@ struct AddNewIngredientView: AddNewElementView {
     
     typealias Element = Ingredient
         
-    let viewStyle: ViewStyle<Ingredient>
+    let viewStyle: ModifyElementViewStyle<Ingredient>
     @Binding var ingredient: Ingredient
-    @AppStorage("color") var color: Color = .green
+    @AppStorage("color") var color: Color = .white
         
-    init(element: Binding<Ingredient>, viewStyle: ViewStyle<Ingredient> = .edit) {
+    init(element: Binding<Ingredient>, viewStyle: ModifyElementViewStyle<Ingredient> = .edit) {
         self.viewStyle = viewStyle
         self._ingredient = element
     }
@@ -56,8 +48,16 @@ struct AddNewIngredientView: AddNewElementView {
     }
 }
 
+extension NumberFormatter {
+    static var decimal: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }
+}
+
 struct AddNewIngredientView_Previews: PreviewProvider {
-    @State static var recipe = Recipe.allRecipes[0]
+    @State static var recipe = Recipe.testRecipes[0]
     
     static var previews: some View {
         AddNewIngredientView(element: $recipe.ingredients[0], viewStyle: .edit)

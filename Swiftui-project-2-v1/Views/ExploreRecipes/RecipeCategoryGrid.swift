@@ -53,7 +53,6 @@ struct CategoryView: View {
 }
 
 struct RecipeCategoryGrid_Previews: PreviewProvider {
-    @State static var recipes = Recipe.allRecipes
     static var previews: some View {
         RecipeCategoryGrid()
     }

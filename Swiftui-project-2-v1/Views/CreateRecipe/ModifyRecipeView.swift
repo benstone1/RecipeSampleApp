@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct ModifyRecipeView: View {
+struct ModifyRecipeView: View {    
     @AppStorage("color") var color: Color = .white
     @State var selection = Selection.main
+    
     @Binding var recipe: Recipe
     
     let style: ViewStyle
@@ -44,6 +45,7 @@ struct ModifyRecipeView: View {
         case ingredients
         case directions
     }
+    
     enum ViewStyle {
         case create
         case edit

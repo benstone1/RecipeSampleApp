@@ -8,36 +8,26 @@
 import SwiftUI
 
 struct RecipesList: View {
-    @AppStorage("color") var color: Color = .green
     @EnvironmentObject var recipeData: RecipeData
-
     @State var isPresenting = false
     @State var newRecipe = Recipe.emptyRecipe
-    
-    enum ViewStyle {
-        case category(MainInformation.Category)
-        case favorite
-    }
-    
+        
     let viewStyle: ViewStyle
-    
-    var filteredRecipes: [Recipe] {
-        switch viewStyle {
-        case let .category(category): return recipeData.recipes.filter { $0.mainInformation.category == category }
-        case .favorite: return recipeData.recipes.filter { $0.isFavorite == true }
-        }
-    }
-    
+        
     var body: some View {
         List {
             switch viewStyle {
             case .favorite:
-                FavoritesList()
+                ForEach(MainInformation.Category.allCases, id: \.self) { category in
+                    Section(header: Text(category.rawValue)) {
+                        CategoriesList(category: category, onlyFavorites: true)
+                    }
+                }
             case let .category(category):
-                CategoriesList(category: category)
+                CategoriesList(category: category, onlyFavorites: false)
             }
         }
-        .navigationBarTitle(navigationTitleStr)
+        .navigationBarTitle(viewStyle.navigationTitle)
         .toolbar(content: {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -53,49 +43,34 @@ struct RecipesList: View {
             }
         }
     }
+    
+    enum ViewStyle {
+        case category(MainInformation.Category)
+        case favorite
         
-    private var navigationTitleStr: String {
-        switch viewStyle {
-        case let .category(category): return "\(category.rawValue) Recipes"
-        case .favorite: return "Favorite Recipes"
+        var navigationTitle: String {
+            switch self {
+            case let .category(category): return "\(category.rawValue) Recipes"
+            case .favorite: return "Favorite Recipes"
+            }
         }
     }
 }
 
 struct CategoriesList: View {
     @EnvironmentObject var recipeData: RecipeData
-    
+    @AppStorage("color") var color: Color = .white
+
     let category: MainInformation.Category
-    let onlyDisplayFavorites: Bool
-    
-    init(category: MainInformation.Category, onlyDisplayFavorites: Bool = false) {
-        self.category = category
-        self.onlyDisplayFavorites = onlyDisplayFavorites
-    }
-    
+    let onlyFavorites: Bool
+        
     var body: some View {
-        ForEach(filteredRecipes, id: \.id) { recipe in
+        let recipes = recipeData.recipes(for: category, onlyFavorites: onlyFavorites)
+        ForEach(recipes, id: \.id) { recipe in
             let index = recipeData.index(for: recipe)
             NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: $recipeData.recipes[index]))
         }
-    }
-    
-    private var filteredRecipes: [Recipe] {
-        return recipeData.recipes.filter { (recipe) -> Bool in
-            let categoryMatches = recipe.mainInformation.category == category
-            let isFavoriteOrDisplayAllRecipes = !onlyDisplayFavorites || recipe.isFavorite
-            return categoryMatches && isFavoriteOrDisplayAllRecipes
-        }
-    }
-}
-
-struct FavoritesList: View {
-    var body: some View {
-        ForEach(MainInformation.Category.allCases, id: \.self) { category in
-            Section(header: Text(category.rawValue)) {
-                CategoriesList(category: category, onlyDisplayFavorites: true)
-            }
-        }
+        .listRowBackground(color)
     }
 }
 

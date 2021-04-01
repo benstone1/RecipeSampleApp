@@ -14,6 +14,12 @@ class RecipeData: ObservableObject {
         }
     }
     
+    func recipes(for category: MainInformation.Category, onlyFavorites: Bool) -> [Recipe] {
+        recipes
+            .filter { $0.mainInformation.category == category }
+            .filter { onlyFavorites ? $0.isFavorite : true }
+    }
+    
     func index(for recipe: Recipe) -> Int {
         recipes.firstIndex { recipe.id == $0.id }!
     }
@@ -33,7 +39,7 @@ class RecipeData: ObservableObject {
     func loadRecipes() {
         guard let data = try? Data(contentsOf: recipesFileURL) else {
             #if DEBUG
-                recipes = Recipe.allRecipes
+                recipes = Recipe.testRecipes
             #endif
             return
         }

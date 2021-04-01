@@ -14,10 +14,10 @@ struct AddNewDirectionView: AddNewElementView {
     typealias Element = Direction
     
     
-    let viewStyle: ViewStyle<Direction>
+    let viewStyle: ModifyElementViewStyle<Direction>
     @Binding var direction: Direction
     
-    init(element: Binding<Direction>, viewStyle: ViewStyle<Direction> = .edit) {
+    init(element: Binding<Direction>, viewStyle: ModifyElementViewStyle<Direction> = .edit) {
         self.viewStyle = viewStyle
         self._direction = element
     }
@@ -25,7 +25,7 @@ struct AddNewDirectionView: AddNewElementView {
     // MARK: - Environment and State
     
     @Environment(\.presentationMode) private var mode
-    @AppStorage("color") var color: Color = .green
+    @AppStorage("color") var color: Color = .white
 
     @State private var isRequired = true
 
@@ -42,29 +42,8 @@ struct AddNewDirectionView: AddNewElementView {
     }
 }
 
-struct SaveButton<Element>: View {
-    @Environment(\.presentationMode) private var mode
-    @Binding var element: Element
-    let viewStyle: ViewStyle<Element>
-    
-    var body: some View {
-        switch viewStyle {
-        case let .create(onCreate):
-            HStack {
-                Spacer()
-                Button("Save") {
-                    onCreate(element)
-                    mode.wrappedValue.dismiss()
-                }
-                Spacer()
-            }
-        case .edit: EmptyView()
-        }
-    }
-}
-
 struct AddNewDirectionView_Previews: PreviewProvider {
-    @State static var recipe = Recipe.allRecipes[0]
+    @State static var recipe = Recipe.testRecipes[0]
     
     static var previews: some View {
         AddNewDirectionView(element: $recipe.directions[0], viewStyle: .create({ _ in }))

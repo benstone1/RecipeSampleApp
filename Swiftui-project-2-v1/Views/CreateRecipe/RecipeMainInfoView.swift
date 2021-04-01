@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecipeMainInfoView: View {
-    @AppStorage("color") var color: Color = .green
+    @AppStorage("color") var color: Color = .white
     @Binding var mainInformation: MainInformation
     
     var body: some View {
@@ -23,23 +23,6 @@ struct RecipeMainInfoView: View {
                     }
                 }
             }
-        }
-    }
-}
-
-struct TextEditorWithPlaceholder: View {
-    @Binding var text: String
-    let placeholderText = "Description"
-    
-    var body: some View {
-        ZStack(alignment: .leading) {
-            if text.isEmpty {
-                Text(placeholderText)
-                    .foregroundColor(.gray)
-                    .opacity(0.75)
-                    .padding(.leading, 5)
-            }
-            TextEditor(text: $text)
         }
     }
 }
