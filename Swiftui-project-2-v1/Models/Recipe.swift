@@ -39,6 +39,7 @@ struct MainInformation: Codable, Identifiable {
 
 struct Direction: Identifiable, CustomStringConvertible, Codable, EmptyInitializable {
     var id = UUID()
+    
     init(_ description: String, isRequired: Bool = true) {
         self.description = description
         self.isRequired = true
@@ -98,7 +99,7 @@ struct Ingredient: Identifiable, CustomStringConvertible, Codable, EmptyInitiali
 
 
 extension Recipe {
-    static let allRecipes: [Recipe] = [
+    static let testRecipes: [Recipe] = [
         Recipe(mainInformation: MainInformation(name: "Apple Pie", description: "It's great!", category: .dessert),
                ingredients: [
                 Ingredient(name: "Apple", quantity: 3, unit: .none),

@@ -5,13 +5,23 @@
 //  Created by Ben Stone on 3/29/21.
 //
 
-import SwiftUI
+import Foundation
 
 class RecipeData: ObservableObject {
     @Published var recipes = [Recipe]() {
         didSet {
             throttleSave()
         }
+    }
+    
+    func recipes(for category: MainInformation.Category, onlyFavorites: Bool) -> [Recipe] {
+        recipes
+            .filter { $0.mainInformation.category == category }
+            .filter { onlyFavorites ? $0.isFavorite : true }
+    }
+    
+    func index(for recipe: Recipe) -> Int {
+        recipes.firstIndex { recipe.id == $0.id }!
     }
     
     private var saveTask: DispatchWorkItem?
@@ -29,7 +39,7 @@ class RecipeData: ObservableObject {
     func loadRecipes() {
         guard let data = try? Data(contentsOf: recipesFileURL) else {
             #if DEBUG
-                recipes = Recipe.allRecipes
+                recipes = Recipe.testRecipes
             #endif
             return
         }

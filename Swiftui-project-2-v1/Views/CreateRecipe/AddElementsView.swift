@@ -8,14 +8,14 @@
 import SwiftUI
 
 
-enum ViewStyle<Element> {
+enum ModifyElementViewStyle<Element> {
     case create((Element) -> Void)
     case edit
 }
 
 protocol AddNewElementView: View {
     associatedtype Element
-    init(element: Binding<Element>, viewStyle: ViewStyle<Element>)
+    init(element: Binding<Element>, viewStyle: ModifyElementViewStyle<Element>)
 }
 
 protocol EmptyInitializable {
@@ -57,6 +57,7 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible & EmptyIn
                         }
                         .onDelete { elements.remove(atOffsets: $0) }
                         .onMove { indices, newOffet in elements.move(fromOffsets: indices, toOffset: newOffet) }
+                        .listRowBackground(color)
                         NavigationLink("Add another \(elementName)",
                                        destination: addElementView)
                             .buttonStyle(PlainButtonStyle())
@@ -69,7 +70,7 @@ struct AddElementsView<Element: Identifiable & CustomStringConvertible & EmptyIn
 }
 
 struct AddElementsView_Previews: PreviewProvider {
-    @State static var recipe = Recipe.allRecipes[0]
+    @State static var recipe = Recipe.testRecipes[0]
     
     static var previews: some View {
         AddElementsView<Ingredient, AddNewIngredientView>(elements: .constant([]))

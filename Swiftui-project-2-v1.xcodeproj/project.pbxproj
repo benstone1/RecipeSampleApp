@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F20B6067260B925200711758 /* RecipeCategoryGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20B6066260B925200711758 /* RecipeCategoryGrid.swift */; };
 		F22994F625FFB72D0037B97C /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22994F525FFB72D0037B97C /* RecipeDetailView.swift */; };
 		F22994FA25FFC2250037B97C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22994F925FFC2250037B97C /* MainTabView.swift */; };
 		F22994FD25FFC2820037B97C /* ModifyRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22994FC25FFC2820037B97C /* ModifyRecipeView.swift */; };
@@ -22,10 +21,12 @@
 		F2C005E325F6C4E20025162A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C005E225F6C4E20025162A /* Assets.xcassets */; };
 		F2C005E625F6C4E20025162A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C005E525F6C4E20025162A /* Preview Assets.xcassets */; };
 		F2C005EF25F6C4F90025162A /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C005EE25F6C4F90025162A /* Recipe.swift */; };
+		F2DCFDE1261662FB00749114 /* RecipeCategoryGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DCFDE0261662FB00749114 /* RecipeCategoryGrid.swift */; };
+		F2DCFDE52616733F00749114 /* SaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DCFDE42616733F00749114 /* SaveButton.swift */; };
+		F2DCFDE8261674CC00749114 /* TextEditorWithPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DCFDE7261674CC00749114 /* TextEditorWithPlaceholder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F20B6066260B925200711758 /* RecipeCategoryGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecipeCategoryGrid.swift; path = "Swiftui-project-2-v1/ExploreRecipes/RecipeCategoryGrid.swift"; sourceTree = SOURCE_ROOT; };
 		F22994F525FFB72D0037B97C /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		F22994F925FFC2250037B97C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		F22994FC25FFC2820037B97C /* ModifyRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyRecipeView.swift; sourceTree = "<group>"; };
@@ -42,6 +43,9 @@
 		F2C005E525F6C4E20025162A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F2C005E725F6C4E20025162A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2C005EE25F6C4F90025162A /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		F2DCFDE0261662FB00749114 /* RecipeCategoryGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCategoryGrid.swift; sourceTree = "<group>"; };
+		F2DCFDE42616733F00749114 /* SaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButton.swift; sourceTree = "<group>"; };
+		F2DCFDE7261674CC00749114 /* TextEditorWithPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorWithPlaceholder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,9 +63,27 @@
 			isa = PBXGroup;
 			children = (
 				F2C005EE25F6C4F90025162A /* Recipe.swift */,
-				F298FD5826122546005B8657 /* RecipeData.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F298FD862616620C005B8657 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F298FD5826122546005B8657 /* RecipeData.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F298FD882616621B005B8657 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F22994F925FFC2250037B97C /* MainTabView.swift */,
+				F27677372604FAD8008CDD4A /* SettingsView.swift */,
+				F2B15F132601507900F84A84 /* ExploreRecipes */,
+				F2B15F112601505D00F84A84 /* CreateRecipe */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F2B15F112601505D00F84A84 /* CreateRecipe */ = {
@@ -72,6 +94,8 @@
 				F248EA722603EFA40078D08F /* AddElementsView.swift */,
 				F28B9E982602959F0061E501 /* AddNewIngredientView.swift */,
 				F28B9E9E2603A9760061E501 /* AddNewDirectionView.swift */,
+				F2DCFDE7261674CC00749114 /* TextEditorWithPlaceholder.swift */,
+				F2DCFDE42616733F00749114 /* SaveButton.swift */,
 			);
 			path = CreateRecipe;
 			sourceTree = "<group>";
@@ -79,7 +103,7 @@
 		F2B15F132601507900F84A84 /* ExploreRecipes */ = {
 			isa = PBXGroup;
 			children = (
-				F20B6066260B925200711758 /* RecipeCategoryGrid.swift */,
+				F2DCFDE0261662FB00749114 /* RecipeCategoryGrid.swift */,
 				F2C005E025F6C4E10025162A /* RecipesList.swift */,
 				F22994F525FFB72D0037B97C /* RecipeDetailView.swift */,
 			);
@@ -106,11 +130,9 @@
 			isa = PBXGroup;
 			children = (
 				F2C005DE25F6C4E10025162A /* Swiftui_project_2_v1App.swift */,
-				F22994F925FFC2250037B97C /* MainTabView.swift */,
-				F27677372604FAD8008CDD4A /* SettingsView.swift */,
 				F276773B2604FDDC008CDD4A /* Models */,
-				F2B15F132601507900F84A84 /* ExploreRecipes */,
-				F2B15F112601505D00F84A84 /* CreateRecipe */,
+				F298FD882616621B005B8657 /* Views */,
+				F298FD862616620C005B8657 /* ViewModels */,
 				F2C005E225F6C4E20025162A /* Assets.xcassets */,
 				F2C005E725F6C4E20025162A /* Info.plist */,
 				F2C005E425F6C4E20025162A /* Preview Content */,
@@ -203,9 +225,11 @@
 				F2C005EF25F6C4F90025162A /* Recipe.swift in Sources */,
 				F2C005E125F6C4E10025162A /* RecipesList.swift in Sources */,
 				F2C005DF25F6C4E10025162A /* Swiftui_project_2_v1App.swift in Sources */,
-				F20B6067260B925200711758 /* RecipeCategoryGrid.swift in Sources */,
+				F2DCFDE52616733F00749114 /* SaveButton.swift in Sources */,
+				F2DCFDE1261662FB00749114 /* RecipeCategoryGrid.swift in Sources */,
 				F298FD5926122546005B8657 /* RecipeData.swift in Sources */,
 				F22994F625FFB72D0037B97C /* RecipeDetailView.swift in Sources */,
+				F2DCFDE8261674CC00749114 /* TextEditorWithPlaceholder.swift in Sources */,
 				F22994FA25FFC2250037B97C /* MainTabView.swift in Sources */,
 				F27677382604FAD8008CDD4A /* SettingsView.swift in Sources */,
 			);

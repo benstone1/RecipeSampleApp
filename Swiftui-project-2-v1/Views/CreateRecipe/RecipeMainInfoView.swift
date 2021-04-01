@@ -8,42 +8,21 @@
 import SwiftUI
 
 struct RecipeMainInfoView: View {
-    @AppStorage("color") var color: Color = .green
+    @AppStorage("color") var color: Color = .white
     @Binding var mainInformation: MainInformation
     
     var body: some View {
         ZStack {
             color.ignoresSafeArea()
             Form {
-                HStack {
-                    Text("Name:")
-                        .padding()
-                    TextField("Apple Pie", text: $mainInformation.name)
-                }
+                TextField("Apple Pie", text: $mainInformation.name)
                 TextEditorWithPlaceholder(text: $mainInformation.description)
                 Picker("Category", selection: $mainInformation.category) {
                     ForEach(MainInformation.Category.allCases) { category in
                         Text(category.rawValue)
                     }
                 }
-                .padding()
             }
-        }
-    }
-}
-
-struct TextEditorWithPlaceholder: View {
-    @Binding var text: String
-    let placeholderText = "Description"
-    
-    var body: some View {
-        ZStack(alignment: .leading) {
-            if text.isEmpty {
-                Text(placeholderText)
-                    .foregroundColor(.gray)
-                    .padding(.leading, 5)
-            }
-            TextEditor(text: $text)
         }
     }
 }

@@ -7,6 +7,27 @@
 
 import SwiftUI
 
+struct SettingsView: View {
+    @AppStorage("color") var color: Color = .white
+    @AppStorage("hideOptionalSteps") var hideOptionalSteps: Bool = false
+    
+    var body: some View {
+        ZStack {
+            color.ignoresSafeArea()
+            VStack {
+                Text("Settings")
+                    .font(.title)
+                    .padding()
+                Form {
+                    Toggle("Hide Optional Steps", isOn: $hideOptionalSteps)
+                        .padding()
+                    ColorPicker("Color", selection: $color)
+                        .padding()
+                }
+            }
+        }
+    }
+}
 
 extension Color: RawRepresentable {
     public init?(rawValue str: String) {
@@ -29,28 +50,6 @@ extension Color: RawRepresentable {
         }
         catch {
             return ""
-        }
-    }
-}
-
-struct SettingsView: View {
-    @AppStorage("color") var color: Color = .white
-    @AppStorage("hideOptionalSteps") var hideOptionalSteps: Bool = false
-    
-    var body: some View {
-        ZStack {
-            color.ignoresSafeArea()
-            VStack {
-                Text("Settings")
-                    .font(.title)
-                    .padding()
-                Form {
-                    Toggle("Hide Optional Steps", isOn: $hideOptionalSteps)
-                        .padding()
-                    ColorPicker("Color", selection: $color)
-                        .padding()
-                }
-            }
         }
     }
 }
