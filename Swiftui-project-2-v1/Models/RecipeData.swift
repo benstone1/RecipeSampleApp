@@ -5,13 +5,17 @@
 //  Created by Ben Stone on 3/29/21.
 //
 
-import SwiftUI
+import Foundation
 
 class RecipeData: ObservableObject {
     @Published var recipes = [Recipe]() {
         didSet {
             throttleSave()
         }
+    }
+    
+    func index(for recipe: Recipe) -> Int {
+        recipes.firstIndex { recipe.id == $0.id }!
     }
     
     private var saveTask: DispatchWorkItem?

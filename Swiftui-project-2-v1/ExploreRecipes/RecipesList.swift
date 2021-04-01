@@ -75,7 +75,8 @@ struct CategoriesList: View {
     
     var body: some View {
         ForEach(filteredRecipes, id: \.id) { recipe in
-            NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: binding(for: recipe)))
+            let index = recipeData.index(for: recipe)
+            NavigationLink(recipe.mainInformation.name, destination: RecipeDetailView(recipe: $recipeData.recipes[index]))
         }
     }
     
@@ -85,11 +86,6 @@ struct CategoriesList: View {
             let isFavoriteOrDisplayAllRecipes = !onlyDisplayFavorites || recipe.isFavorite
             return categoryMatches && isFavoriteOrDisplayAllRecipes
         }
-    }
-    
-    private func binding(for recipe: Recipe) -> Binding<Recipe> {
-        let index = recipeData.recipes.firstIndex { recipe.id == $0.id }!
-        return $recipeData.recipes[index]
     }
 }
 
